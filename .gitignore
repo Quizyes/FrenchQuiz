@@ -6,6 +6,7 @@ ninja-build/
 xcode-build/
 web-build/
 xcb/
+scripts/
 .idea/
 .env
 # Prerequisites

@@ -16,12 +16,19 @@
 #pragma once
 
 #include <SQLiteCpp/SQLiteCpp.h>
+#include <visage_file_embed/embedded_file.h>
+#include "embedded/dbs.h"
+#include <sqlite3.h>
 
 namespace gwr::frqz
 {
 
 class DbManager
 {
+  public:
+    SQLite::Database db;
+    DbManager(std::string dbFileName);
+    SQLite::Statement getStmt(std::string s);
 };
 
 } // namespace gwr::frqz

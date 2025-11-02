@@ -1,7 +1,2 @@
 -- TESTING
 -- site folder is working
-    -- update cmake to build to it
-    -- update App2 (or w/e we call it) to give correct help page
-    -- and give help page correct link to stylesheet
-
--- platform specific defines seem unnecessary

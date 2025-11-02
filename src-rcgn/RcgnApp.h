@@ -18,6 +18,7 @@
 #include <visage_app/application_window.h>
 #include <visage_file_embed/embedded_file.h>
 #include "embedded/fonts.h"
+#include "DbManager.h"
 
 namespace gwr::frqz
 {
@@ -26,6 +27,9 @@ class RcgnApp : public visage::ApplicationWindow
 {
   public:
     RcgnApp();
+    DbManager dbm;
+    std::string testOut;
+
     void newQuiz();
     void loadAlts();
     void markQuiz();
@@ -34,7 +38,7 @@ class RcgnApp : public visage::ApplicationWindow
     bool quizIsMarked{false};
 
     visage::Frame header, colHead, body;
-    visage::Font font{55, resources::fonts::Lato_regular_ttf};
+    visage::Font font{55, resources::fonts::Lato_Regular_ttf};
     void draw(visage::Canvas &canvas) override;
 };
 

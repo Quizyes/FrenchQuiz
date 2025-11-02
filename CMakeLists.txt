@@ -16,6 +16,8 @@ project(${PROJECT_NAME} VERSION 0.1.0 LANGUAGES CXX C)
 add_subdirectory(libs/visage)
 file(GLOB_RECURSE FONT_TTF_FILES fonts/*.ttf)
 add_embedded_resources(EmbeddedFontResources "fonts.h" "resources::fonts" "${FONT_TTF_FILES}")
+file(GLOB_RECURSE SQL_FILES dbs/*.db)
+add_embedded_resources(EmbeddedDbResources "dbs.h" "resources::dbs" "${SQL_FILES}")
 
 # ditto for SQLiteCpp
 add_subdirectory(libs/SQLiteCpp)
@@ -26,6 +28,8 @@ add_executable(${EXEC1}
 
 add_executable(${EXEC2}
   src-rcgn/main.cpp
+  src-rcgn/RcgnApp.cpp
+  src-rcgn/DbManager.cpp
 )
 
 # if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
@@ -99,6 +103,7 @@ endif()
 target_link_libraries(${EXEC1} PRIVATE
   visage
   EmbeddedFontResources
+  EmbeddedDbResources
   SQLiteCpp
   sqlite3 # ${SQL} 
 )
@@ -106,6 +111,7 @@ target_link_libraries(${EXEC1} PRIVATE
 target_link_libraries(${EXEC2} PRIVATE
   visage
   EmbeddedFontResources
+  EmbeddedDbResources
   SQLiteCpp
   sqlite3 # ${SQL} 
 )

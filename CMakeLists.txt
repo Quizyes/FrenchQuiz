@@ -14,8 +14,8 @@ project(${PROJECT_NAME} VERSION 0.1.0 LANGUAGES CXX C)
 
 # assuming visage has been added as a submodule
 add_subdirectory(libs/visage)
-# file(GLOB_RECURSE FONT_TTF_FILES fonts/*.ttf)
-# add_embedded_resources(EmbeddedFontResources "fonts.h" "resources::fonts" "${FONT_TTF_FILES}")
+file(GLOB_RECURSE FONT_TTF_FILES fonts/*.ttf)
+add_embedded_resources(EmbeddedFontResources "fonts.h" "resources::fonts" "${FONT_TTF_FILES}")
 
 # ditto for SQLiteCpp
 add_subdirectory(libs/SQLiteCpp)
@@ -98,14 +98,14 @@ endif()
 
 target_link_libraries(${EXEC1} PRIVATE
   visage
-  # EmbeddedFontResources
+  EmbeddedFontResources
   SQLiteCpp
   sqlite3 # ${SQL} 
 )
 
 target_link_libraries(${EXEC2} PRIVATE
   visage
-  # EmbeddedFontResources
+  EmbeddedFontResources
   SQLiteCpp
   sqlite3 # ${SQL} 
 )

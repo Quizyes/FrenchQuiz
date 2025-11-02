@@ -17,8 +17,13 @@
 
 #include <visage_app/application_window.h>
 #include <visage_file_embed/embedded_file.h>
+#include <visage_widgets/button.h>
+#include <visage_utils/dimension.h>
+#include <visage_ui/popup_menu.h>
 #include "embedded/fonts.h"
 #include "DbManager.h"
+#include "QuizItem.h"
+#include "Label.h"
 
 namespace gwr::frqz
 {
@@ -28,18 +33,24 @@ class RcgnApp : public visage::ApplicationWindow
   public:
     RcgnApp();
     DbManager dbm;
-    std::string testOut;
 
     void newQuiz();
     void loadAlts();
     void markQuiz();
+    void compare();
+    void draw(visage::Canvas &canvas) override;
 
     bool userInputIsShown{true}; // true when fields show USER input
     bool quizIsMarked{false};
 
-    visage::Frame header, colHead, body;
     visage::Font font{55, resources::fonts::Lato_Regular_ttf};
-    void draw(visage::Canvas &canvas) override;
+    visage::Frame header, colHead, body;
+    visage::UiButton helpBtn{"?"}, newBtn{"New"}, markBtn{"Mark"}, cmpBtn{"Compare"},
+        optionsBtn{"Options"};
+    Label formCol, headCol, parseCol;
+    std::array<QuizItem, 8> items;
+    std::map<int, std::map<bool, std::string>> optStrs;
+    std::map<int, bool> optBools;
 };
 
 } // namespace gwr::frqz

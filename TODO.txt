@@ -1,2 +1,3 @@
 -- TESTING
 -- site folder is working
+-- db from sqlite3_deserialize is working

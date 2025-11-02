@@ -10,7 +10,8 @@ DbManager::DbManager(std::string dbFilename)
 {
     int rv = sqlite3_deserialize(
         db.getHandle(), "main", (unsigned char *)resources::dbs::recognitions_db.data,
-        resources::dbs::recognitions_db.size, resources::dbs::recognitions_db.size, NULL);
+        resources::dbs::recognitions_db.size, resources::dbs::recognitions_db.size,
+        SQLITE_DESERIALIZE_RESIZEABLE);
 }
 
 } // namespace gwr::frqz

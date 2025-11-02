@@ -32,32 +32,6 @@ add_executable(${EXEC2}
   src-rcgn/DbManager.cpp
 )
 
-# if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-#     target_compile_definitions(${EXEC1} PUBLIC "IS_LINUX")
-#     set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-# endif()
-# if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-#     target_compile_definitions(${EXEC1} PUBLIC "IS_MACOS")
-#     add_compile_options(-mmacosx-version-min=15.0)
-#     target_compile_definitions(${EXEC1} PUBLIC -D_GLIBCXX_USE_CXX11_ABI=1)
-# endif()
-# 
-# 
-# if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-#     target_compile_definitions(${EXEC2} PUBLIC "IS_LINUX")
-#     set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-# endif()
-# if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-#     target_compile_definitions(${EXEC2} PUBLIC "IS_MACOS")
-#     add_compile_options(-mmacosx-version-min=15.0)
-#     target_compile_definitions(${EXEC2} PUBLIC -D_GLIBCXX_USE_CXX11_ABI=1)
-# endif()
-
-# set_target_properties(${EXEC1} PROPERTIES MACOSX_BUNDLE TRUE)
-# set_property(TARGET ${EXEC1} PROPERTY CXX_STANDARD 20)
-# set_target_properties(${EXEC2} PROPERTIES MACOSX_BUNDLE TRUE)
-# set_property(TARGET ${EXEC2} PROPERTY CXX_STANDARD 20)
-
 include_directories(libs/visage libs/SQLiteCpp src-pdgm src-rcgn)
 
 if (EMSCRIPTEN)

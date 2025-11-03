@@ -39,6 +39,8 @@ class QuizItem : public visage::Frame
     void clearColors();
     void readEntries();
     void check();
+    bool checkHead();
+    bool checkParse();
     void color();
     void show();
     void mark();

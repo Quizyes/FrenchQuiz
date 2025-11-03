@@ -1,5 +1,5 @@
 #include "RcgnApp.h"
-#include <emscripten.h>
+// #include <emscripten.h>
 
 using namespace visage::dimension;
 
@@ -52,7 +52,7 @@ RcgnApp::RcgnApp() : dbm(":memory:")
     helpBtn.setFont(font.withSize(25.f));
     helpBtn.onMouseDown() = [&](const visage::MouseEvent &e) {
         // clang-format off
-        EM_ASM(window.open("help.html", "myPopup", "width=900,height=600,resizable=yes,scrollbars=yes,location=no,menubar=no,toolbar=no,status=no"));
+        // EM_ASM(window.open("help.html", "myPopup", "width=900,height=600,resizable=yes,scrollbars=yes,location=no,menubar=no,toolbar=no,status=no"));
         // clang-format on
     };
 

@@ -67,26 +67,53 @@ void QuizItem::readEntries()
 void QuizItem::check()
 {
     int idx{0};
-    headIsCorrect = false;
-    parseIsCorrect = false;
-    for (auto &dbForm : dbEntries)
+    headIsCorrect = checkHead();
+    parseIsCorrect = checkParse();
+    for (auto &dbEntry : dbEntries)
     {
         bool headC{false}, parseC{false};
-        if (replaceAccentedCharacters(userHead) == replaceAccentedCharacters(dbForm.head))
+        if (replaceAccentedCharacters(userHead) == replaceAccentedCharacters(dbEntry.head))
             headC = true;
-        if (compareParses(userParse, dbForm.parse))
+        if (compareParses(userParse, dbEntry.parse))
             parseC = true;
         if (parseC && headC)
         {
             idxOfCorrectParse = idx;
             headIsCorrect = true;
             parseIsCorrect = true;
-            dbHead = dbForm.head;
-            dbParse = dbForm.parse;
+            dbHead = dbEntry.head;
+            dbParse = dbEntry.parse;
             return;
         }
         ++idx;
     }
+}
+
+bool QuizItem::checkHead()
+{
+    for (auto &entry : dbEntries)
+    {
+        if (replaceAccentedCharacters(userHead) == replaceAccentedCharacters(entry.head))
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool QuizItem::checkParse()
+{
+    size_t idx{0};
+    for (auto &entry : dbEntries)
+    {
+        if (compareParses(userParse, entry.parse))
+        {
+            idxOfCorrectParse = idx;
+            return true;
+        }
+        ++idx;
+    }
+    return false;
 }
 
 void QuizItem::color()

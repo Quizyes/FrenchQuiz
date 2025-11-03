@@ -79,8 +79,6 @@ void QuizItem::check()
         if (parseC && headC)
         {
             idxOfCorrectParse = idx;
-            headIsCorrect = true;
-            parseIsCorrect = true;
             dbHead = dbEntry.head;
             dbParse = dbEntry.parse;
             return;

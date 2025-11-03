@@ -9,7 +9,7 @@ int main()
         canvas.fill(0, 0, app.width(), app.height());
     };
 
-    app.show(800, 600); // Opens as 800 x 600 pixel window
-    app.runEventLoop(); // Runs window events. Returns when window is closed.
+    app.show(1200, 900);
+    app.runEventLoop();
     return 0;
 }

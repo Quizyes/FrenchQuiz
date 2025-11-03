@@ -23,7 +23,7 @@ int main()
     visage::Palette palette_;
     palette_.setColor(visage::UiButton::UiActionButtonBackground, 0xff555555);
     app.setPalette(&palette_);
-    app.show(1200, 900); // Opens as 800 x 600 pixel window
-    app.runEventLoop();  // Runs window events. Returns when window is closed.
+    app.show(1200, 900);
+    app.runEventLoop();
     return 0;
 }

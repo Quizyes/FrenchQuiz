@@ -48,7 +48,8 @@ class RcgnApp : public visage::ApplicationWindow
     visage::UiButton helpBtn{"?"}, newBtn{"New"}, markBtn{"Mark"}, cmpBtn{"Compare"},
         optionsBtn{"Options"};
     Label formCol, headCol, parseCol;
-    std::array<QuizItem, 8> items;
+    QuizItem q1, q2, q3, q4, q5, q6, q7, q8;
+    std::array<QuizItem *, 8> items;
     std::map<int, std::map<bool, std::string>> optStrs;
     std::map<int, bool> optBools;
 };

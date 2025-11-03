@@ -17,7 +17,10 @@
 #pragma once
 #include <visage_ui/frame.h>
 #include <visage_widgets/text_editor.h>
+#include <visage_file_embed/embedded_file.h>
+#include "embedded/fonts.h"
 #include "Label.h"
+#include <set>
 
 namespace gwr::frqz
 {
@@ -31,8 +34,9 @@ class QuizItem : public visage::Frame
 {
   public:
     QuizItem();
-    void clearColors();
+    void clearUi();
     void clearData();
+    void clearColors();
     void readEntries();
     void check();
     void color();
@@ -50,10 +54,12 @@ class QuizItem : public visage::Frame
     bool compareParses(std::string &user, std::string &db);
     std::string replaceAccentedCharacters(std::string &input);
 
+    visage::Font font{25, resources::fonts::Lato_Regular_ttf};
     Label form;
     visage::TextEditor head, parse;
     std::string userHead, userParse, dbHead, dbParse;
     bool headIsCorrect{false}, parseIsCorrect{false};
+    size_t idxOfCorrectParse{0};
     std::vector<dbEntry> dbEntries; // fill with alts from RcgnApp on newQuiz()
 };
 

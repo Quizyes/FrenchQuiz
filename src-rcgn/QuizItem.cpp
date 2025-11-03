@@ -1,34 +1,202 @@
 #include "QuizItem.h"
 
+using namespace visage::dimension;
+
 namespace gwr::frqz
 {
-QuizItem::QuizItem() {}
+VISAGE_THEME_COLOR(WRONG, 0xff991212);
+VISAGE_THEME_COLOR(RIGHT, 0xff129912);
 
-void QuizItem::clearColors() {}
+QuizItem::QuizItem()
+{
+    setFlexLayout(true);
+    layout().setFlexRows(false);
+    layout().setFlexGap(2_vw);
+    layout().setPaddingLeft(1_vw);
 
-void QuizItem::clearData() {}
+    addChild(form, true);
+    addChild(head, true);
+    addChild(parse, true);
 
-void QuizItem::readEntries() {}
+    form.layout().setDimensions(20_vw, 100_vh);
 
-void QuizItem::check() {}
+    head.setFont(font.withSize(20.f));
+    head.setDefaultText("...");
+    head.setJustification(visage::Font::Justification::kCenter);
+    head.layout().setDimensions(20_vw, 100_vh);
+    head.setTextFieldEntry();
 
-void QuizItem::color() {}
+    parse.setFont(font.withSize(20.f));
+    parse.setDefaultText("...");
+    parse.setJustification(visage::Font::Justification::kCenter);
+    parse.layout().setDimensions(55_vw, 100_vh);
+    parse.setTextFieldEntry();
+}
 
-void QuizItem::show() {}
+void QuizItem::clearUi()
+{
+    blk(&head);
+    blk(&parse);
+    blk(&form);
+    parse.clear();
+    head.clear();
+}
 
-void QuizItem::mark() {}
+void QuizItem::clearData()
+{
+    for (auto &p : {&userHead, &userParse, &dbHead, &dbParse})
+    {
+        p->clear();
+    }
+    dbEntries.clear();
+}
 
-void QuizItem::red(Label *l) {}
+void QuizItem::clearColors()
+{
+    blk(&head);
+    blk(&form);
+    blk(&parse);
+}
 
-void QuizItem::red(visage::TextEditor *e) {}
+void QuizItem::readEntries()
+{
+    userHead = head.text().toUtf8();
+    userParse = parse.text().toUtf8();
+}
 
-void QuizItem::grn(Label *l) {}
+void QuizItem::check()
+{
+    int idx{0};
+    headIsCorrect = false;
+    parseIsCorrect = false;
+    for (auto &dbForm : dbEntries)
+    {
+        bool headC{false}, parseC{false};
+        if (replaceAccentedCharacters(userHead) == replaceAccentedCharacters(dbForm.head))
+            headC = true;
+        if (compareParses(userParse, dbForm.parse))
+            parseC = true;
+        if (parseC && headC)
+        {
+            idxOfCorrectParse = idx;
+            headIsCorrect = true;
+            parseIsCorrect = true;
+            dbHead = dbForm.head;
+            dbParse = dbForm.parse;
+            return;
+        }
+        ++idx;
+    }
+}
 
-void QuizItem::grn(visage::TextEditor *e) {}
+void QuizItem::color()
+{
+    if (!userHead.empty())
+    {
+        if (headIsCorrect)
+        {
+            grn(&head);
+            grn(&form);
+        }
+        else
+        {
+            red(&head);
+            red(&form);
+        }
+    }
+    else
+    {
+        blk(&head);
+        blk(&form);
+    }
+    if (!userParse.empty())
+    {
+        if (parseIsCorrect)
+        {
+            grn(&parse);
+            grn(&form);
+        }
+        else
+        {
+            red(&parse);
+            red(&form);
+        }
+    }
+    else
+    {
+        blk(&parse);
+        blk(&form);
+    }
+}
 
-void QuizItem::blk(Label *l) {}
+void QuizItem::show()
+{
+    size_t idx{0};
+    if (headIsCorrect && parseIsCorrect)
+        idx = idxOfCorrectParse;
+    dbHead = dbEntries[idx].head;
+    dbParse = dbEntries[idx].parse;
+    redraw();
+}
 
-void QuizItem::blk(visage::TextEditor *e) {}
+void QuizItem::mark()
+{
+    readEntries();
+    check();
+    color();
+    show();
+    redraw();
+}
+
+void QuizItem::red(Label *l)
+{
+    l->setColor(visage::Color(0xffbb3232));
+    l->redraw();
+}
+void QuizItem::red(visage::TextEditor *e)
+{
+    e->setBackgroundColorId(WRONG);
+    e->redraw();
+}
+
+void QuizItem::grn(Label *l)
+{
+    l->setColor(visage::Color(0xff32bb32));
+    l->redraw();
+}
+void QuizItem::grn(visage::TextEditor *e)
+{
+    e->setBackgroundColorId(RIGHT);
+    e->redraw();
+}
+
+void QuizItem::blk(Label *l)
+{
+    l->setColor(visage::Color(0xff000000));
+    l->redraw();
+}
+void QuizItem::blk(visage::TextEditor *e)
+{
+    e->setBackgroundColorId(visage::TextEditor::TextEditorBackground);
+    e->redraw();
+}
+
+std::set<std::string> QuizItem::split(std::string &str, char delimiter)
+{
+    std::set<std::string> tokens;
+    size_t start = 0;
+    size_t end = str.find(delimiter);
+
+    while (end != std::string::npos)
+    {
+        tokens.insert(str.substr(start, end - start));
+        start = end + 1;
+        end = str.find(delimiter, start);
+    }
+
+    tokens.insert(str.substr(start));
+    return tokens;
+}
 
 bool QuizItem::compareParses(std::string &user, std::string &db)
 {
@@ -45,6 +213,47 @@ bool QuizItem::compareParses(std::string &user, std::string &db)
     return false;
 }
 
-std::string QuizItem::replaceAccentedCharacters(std::string &input) { return std::string(); }
+std::string QuizItem::replaceAccentedCharacters(std::string &input)
+{
+    std::string result;
+    for (size_t i = 0; i < input.size(); ++i)
+    {
+        if ((int)input[i] >= 0)
+        {
+            result.append(1, input[i]);
+        }
+        else
+        {
+            if ((int)input[i] == -61)
+            {
+                if (((int)input[i + 1] >= -96) && ((int)input[i + 1] <= -90))
+                {
+                    result.append("a");
+                }
+                if (((int)input[i + 1] == -89))
+                {
+                    result.append("c");
+                }
+                if (((int)input[i + 1] >= -88) && ((int)input[i + 1] <= -85))
+                {
+                    result.append("e");
+                }
+                if (((int)input[i + 1] >= -84) && ((int)input[i + 1] <= -81))
+                {
+                    result.append("i");
+                }
+                if (((int)input[i + 1] >= -78) && ((int)input[i + 1] <= -72))
+                {
+                    result.append("o");
+                }
+                if (((int)input[i + 1] >= -71) && ((int)input[i + 1] <= -68))
+                {
+                    result.append("u");
+                }
+            }
+        }
+    }
+    return result;
+}
 
 } // namespace gwr::frqz

@@ -30,6 +30,7 @@ add_executable(${EXEC2}
   src-rcgn/main.cpp
   src-rcgn/RcgnApp.cpp
   src-rcgn/DbManager.cpp
+  src-rcgn/QuizItem.cpp
 )
 
 include_directories(libs/visage libs/SQLiteCpp src-pdgm src-rcgn)

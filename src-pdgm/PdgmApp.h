@@ -20,7 +20,7 @@
 #include <visage_file_embed/embedded_file.h>
 #include "embedded/fonts.h"
 #include "Conjugation.h"
-#include "DbManager.h"
+#include "ParadigmDbm.h"
 
 namespace gwr::frqz
 {
@@ -33,10 +33,11 @@ class PdgmApp : public visage::ApplicationWindow
     void newQuiz(std::string &inverb);
     void markQuiz();
     void compare();
+    std::string replaceAccents(std::string &verb);
     Conjugation cPres, cImpf, cPs, cImperat, cFut, cCond, cSubjPres, cSubjPast;
     bool userInputIsShown{true}, quizIsMarked{false};
     visage::Font font{50, resources::fonts::Lato_Regular_ttf};
-    DbManager dbm;
+    ParadigmDbm dbm;
 };
 
 } // namespace gwr::frqz

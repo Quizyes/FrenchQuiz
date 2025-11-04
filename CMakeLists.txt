@@ -24,6 +24,9 @@ add_subdirectory(libs/SQLiteCpp)
 
 add_executable(${EXEC1} 
   src-pdgm/main.cpp
+  src-pdgm/PdgmApp.cpp
+  src-pdgm/ParadigmDbm.cpp
+  src-pdgm/Conjugation.cpp
 )
 
 add_executable(${EXEC2}

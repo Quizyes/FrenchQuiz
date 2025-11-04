@@ -19,7 +19,7 @@
 
 int main()
 {
-    visage::PdgmApp app;
+    gwr::frqz::PdgmApp app;
 
     app.onDraw() = [&app](visage::Canvas &canvas) {
         canvas.setColor(0xffff00ff);

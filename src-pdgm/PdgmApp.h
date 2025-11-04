@@ -14,19 +14,29 @@
 //                                                                      //
 //////////////////////////////////////////////////////////////////////////
 
+#pragma once
+
 #include <visage_app/application_window.h>
-#include "PdgmApp.h"
+#include <visage_file_embed/embedded_file.h>
+#include "embedded/fonts.h"
+#include "Conjugation.h"
+#include "DbManager.h"
 
-int main()
+namespace gwr::frqz
 {
-    visage::PdgmApp app;
 
-    app.onDraw() = [&app](visage::Canvas &canvas) {
-        canvas.setColor(0xffff00ff);
-        canvas.fill(0, 0, app.width(), app.height());
-    };
+class PdgmApp : public visage::ApplicationWindow
+{
+  public:
+    PdgmApp();
+    void newQuiz();
+    void newQuiz(std::string &inverb);
+    void markQuiz();
+    void compare();
+    Conjugation cPres, cImpf, cPs, cImperat, cFut, cCond, cSubjPres, cSubjPast;
+    bool userInputIsShown{true}, quizIsMarked{false};
+    visage::Font font{50, resources::fonts::Lato_Regular_ttf};
+    DbManager dbm;
+};
 
-    app.show(1200, 900);
-    app.runEventLoop();
-    return 0;
-}
+} // namespace gwr::frqz

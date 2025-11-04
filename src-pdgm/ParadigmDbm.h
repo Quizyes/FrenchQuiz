@@ -4,10 +4,11 @@
 namespace gwr::frqz
 {
 
-class DbManager
+class ParadigmDbm
 {
   public:
-    DbManager();
+    ParadigmDbm();
+    ParadigmDbm(std::string &dbName);
 };
 
 } // namespace gwr::frqz

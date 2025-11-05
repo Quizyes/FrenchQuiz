@@ -4,7 +4,127 @@ using namespace visage::dimension;
 
 namespace gwr::frqz
 {
-PdgmApp::PdgmApp() : dbm(std::string{":memory:"}) {}
+
+VISAGE_THEME_COLOR(AppBkgd, 0xff999999);
+
+PdgmApp::PdgmApp() : dbm(":memory:")
+{
+    setFlexLayout(true);
+    layout().setFlexRows(true);
+    addChild(header, true);
+    addChild(body, true);
+    header.setFlexLayout(true);
+    header.layout().setDimensions(100_vw, 10_vh);
+    header.layout().setFlexRows(false);
+    header.layout().setFlexGap(1_vw);
+    header.layout().setPadding(8_vh);
+
+    header.addChild(newBtn, true);
+    header.addChild(markBtn, true);
+    header.addChild(headword, true);
+    header.addChild(cmpBtn, true);
+
+    newBtn.layout().setDimensions(15_vw, 100_vh);
+    markBtn.layout().setDimensions(15_vw, 100_vh);
+    headword.layout().setDimensions(35_vw, 100_vh);
+    cmpBtn.layout().setDimensions(15_vw, 100_vh);
+
+    newBtn.setFont(font.withSize(25.f));
+    newBtn.onMouseDown() = [&](const visage::MouseEvent &e) { newQuiz(); };
+
+    markBtn.setFont(font.withSize(25.f));
+    markBtn.onMouseDown() = [&](const visage::MouseEvent &e) { markQuiz(); };
+
+    cmpBtn.setFont(font.withSize(25.f));
+    cmpBtn.onMouseDown() = [&](const visage::MouseEvent &e) {
+        if (cmpBtn.isActive())
+        {
+            compare();
+        }
+    };
+    cmpBtn.setActive(false);
+
+    headword.setFont(font.withSize(25.f));
+    headword.onEnterKey() = [this]() {
+        auto head = headword.text().toUtf8();
+        newQuiz(head);
+    };
+    // ============================
+
+    body.setFlexLayout(true);
+    body.layout().setDimensions(100_vw, 90_vh);
+    body.layout().setFlexRows(false);
+    body.addChild(left, true);
+    body.addChild(right, true);
+
+    left.setFlexLayout(true);
+    left.layout().setDimensions(49_vw, 100_vh);
+    left.layout().setFlexGap(2.f);
+    left.layout().setPadding(5.f);
+
+    left.addChild(cPres, true);
+    left.addChild(cImpf, true);
+    left.addChild(cPs, true);
+    left.addChild(cImper, true);
+
+    cPres.setFlexLayout(true);
+    cPres.layout().setDimensions(100_vw, 24_vh);
+    cPres.name_ = "Present";
+
+    cImpf.setFlexLayout(true);
+    cImpf.layout().setDimensions(100_vw, 24_vh);
+    cImpf.name_ = "Imperfect";
+
+    cImper.setFlexLayout(true);
+    cImper.layout().setDimensions(100_vw, 24_vh);
+    cImper.name_ = "Imperative  /  Participles+";
+    cImper.pn1.setText("(tu)");
+    cImper.pn2.setText("(nous)");
+    cImper.pn3.setText("(vous)");
+    cImper.pn4.setText("pres.");
+    cImper.pn5.setText("past");
+    cImper.pn6.setText("aux.");
+
+    cPs.setFlexLayout(true);
+    cPs.layout().setDimensions(100_vw, 24_vh);
+    cPs.name_ = "Simple Past";
+
+    right.setFlexLayout(true);
+    right.layout().setDimensions(49_vw, 100_vh);
+    right.layout().setFlexGap(2.f);
+    right.layout().setPadding(5.f);
+
+    right.addChild(cFut, true);
+    right.addChild(cCond, true);
+    right.addChild(cSubjPres, true);
+    right.addChild(cSubjImpf, true);
+
+    cFut.setFlexLayout(true);
+    cFut.layout().setDimensions(100_vw, 24_vh);
+    cFut.name_ = "Future";
+
+    cCond.setFlexLayout(true);
+    cCond.layout().setDimensions(100_vw, 24_vh);
+    cCond.name_ = "Conditional";
+
+    cSubjPres.setFlexLayout(true);
+    cSubjPres.layout().setDimensions(100_vw, 24_vh);
+    cSubjPres.name_ = "Subjunctive Present";
+
+    cSubjImpf.setFlexLayout(true);
+    cSubjImpf.layout().setDimensions(100_vw, 24_vh);
+    cSubjImpf.name_ = "Subjunctive Imperfect";
+
+    cs = {&cPres, &cImpf, &cPs, &cImper, &cFut, &cCond, &cSubjPres, &cSubjImpf};
+
+    quizUnderway.setText("quiz underway");
+}
+
+void PdgmApp::draw(visage::Canvas &canvas)
+{
+    canvas.setColor(AppBkgd);
+    canvas.fill(0, 0, width(), height());
+}
 
 void PdgmApp::newQuiz()
 {
@@ -14,18 +134,209 @@ void PdgmApp::newQuiz()
 
 void PdgmApp::newQuiz(std::string &inverb)
 {
-    if (!inverb.empty())
+    auto st = getQuery(inverb);
+
+    std::string verb, pres, impf, imperat, pastPart, presPart, aux, fut, cond, ps, subjPres,
+        subjImpf;
+    while (st.executeStep())
     {
-        auto likeV = replaceAccents(inverb);
-        auto st = dbm.getStmt("select infinitive from frenchVerbs where infinitive like ?;");
-        st.bind(1, likeV);
+        verb = st.getColumn("infinitive").getString();
+        pres = st.getColumn("present").getString();
+        impf = st.getColumn("imperfect").getString();
+        imperat = st.getColumn("imperative").getString();
+        pastPart = st.getColumn("pastParticiple").getString();
+        presPart = st.getColumn("presParticiple").getString();
+        aux = st.getColumn("auxiliary").getString();
+        fut = st.getColumn("future").getString();
+        cond = st.getColumn("conditional").getString();
+        ps = st.getColumn("passeSimple").getString();
+        subjPres = st.getColumn("subjunctivePres").getString();
+        subjImpf = st.getColumn("subjunctiveImpf").getString();
     }
+    headword.setText(verb);
+
+    auto presForms = splitForms(pres);
+    auto impfForms = splitForms(impf);
+    auto imperForms = splitForms(imperat);
+    std::vector<std::string> impPartForms;
+    impPartForms.push_back(imperForms[1]); // 2nd sg imperat. to first position
+    impPartForms.push_back(imperForms[3]); // 1st pl imperat. to second
+    impPartForms.push_back(imperForms[4]); // 2nd pl imp. to third
+    impPartForms.push_back(presPart);
+    impPartForms.push_back(pastPart);
+    impPartForms.push_back(aux);
+    auto futForms = splitForms(fut);
+    auto condForms = splitForms(cond);
+    auto psForms = splitForms(ps);
+    auto subjPresForms = splitForms(subjPres);
+    auto subjImpfForms = splitForms(subjImpf);
+
+    for (size_t i = 0; i < 6; ++i)
+    {
+        for (auto &c : cs)
+        {
+            c->es[i]->clear();
+        }
+
+        cPres.dbForms[i] = presForms[i];
+        cImpf.dbForms[i] = impfForms[i];
+        cPs.dbForms[i] = psForms[i];
+        cImper.dbForms[i] = impPartForms[i];
+        cFut.dbForms[i] = futForms[i];
+        cCond.dbForms[i] = condForms[i];
+        cSubjPres.dbForms[i] = subjPresForms[i];
+        cSubjImpf.dbForms[i] = subjImpfForms[i];
+    }
+
+    userInputIsShown = true;
+    quizIsMarked = false;
+    cmpBtn.setActive(false);
+    redraw();
 }
 
-void PdgmApp::markQuiz() {}
+void PdgmApp::markQuiz()
+{
+    if (!userInputIsShown)
+        return;
+
+    // compare userForms with dbForms
+    for (auto conj : cs)
+    {
+        conj->clearColors();
+        conj->readContents();
+        for (size_t i = 0; i < 6; ++i)
+        {
+            conj->isCorrect[i] =
+                replaceAccents(conj->userForms[i]).compare(replaceAccents(conj->dbForms[i]));
+        }
+        conj->color();
+    }
+
+    // color fields by correctness
+    userInputIsShown = true;
+    quizIsMarked = true;
+    quizUnderway.setVisible(false);
+    cmpBtn.setActive(true);
+    redraw();
+}
 
 void PdgmApp::compare() {}
 
-std::string PdgmApp::replaceAccents(std::string &verb) { return std::string(); }
+SQLite::Statement PdgmApp::getQuery(std::string &inverb)
+{
+    if (!inverb.empty())
+    {
+        auto likeV = replaceUnaccented(inverb);
+        auto st = dbm.getStmt("select infinitive from frenchVerbs where infinitive like ?;");
+        st.bind(1, likeV);
+        std::vector<std::string> infs;
+        while (st.executeStep())
+        {
+            infs.push_back(st.getColumn("infinitive").getString());
+        }
+
+        std::string finalForm;
+        for (auto inf : infs)
+        {
+            if (replaceAccents(inf).compare(replaceAccents(inverb)) == 0)
+            {
+                finalForm = inf;
+            }
+        }
+        if (!finalForm.empty())
+        {
+            st = dbm.getStmt(
+                "select infinitive, present, imperfect, presParticiple, pastParticiple, auxiliary, "
+                "imperative, future, conditional, passeSimple, "
+                "subjunctivePres, subjunctiveImpf from frenchVerbs where infinitive = ?;");
+            st.bind(1, finalForm);
+            return st;
+        }
+    } // else
+    auto st =
+        dbm.getStmt("select infinitive, present, imperfect, presParticiple, pastParticiple, "
+                    "auxiliary, imperative, future, conditional, passeSimple, "
+                    "subjunctivePres, subjunctiveImpf from frenchVerbs order by random() limit 1;");
+    return st;
+}
+
+std::string PdgmApp::replaceAccents(std::string &input)
+{
+    std::string result;
+
+    for (size_t i = 0; i < input.size(); ++i)
+    {
+        if ((int)input[i] >= 0)
+        {
+            result.append(1, input[i]);
+        }
+        else
+        {
+            if ((int)input[i] == -61)
+            {
+                if (("â" == &input[i]) || ("à" == &input[i]) || ("á" == &input[i]))
+                {
+                    result.append("a");
+                }
+                if ("ç" == &input[i])
+                {
+                    result.append("c");
+                }
+                if (("è" == &input[i]) || ("é" == &input[i]) || ("ë" == &input[i]))
+                {
+                    result.append("e");
+                }
+                if (("î" == &input[i]) || ("ï" == &input[i]))
+                {
+                    result.append("i");
+                }
+                if ("ô" == &input[i])
+                {
+                    result.append("o");
+                }
+                if ("ü" == &input[i])
+                {
+                    result.append("u");
+                }
+            }
+        }
+    }
+    return result;
+}
+
+std::string PdgmApp::replaceUnaccented(std::string &verb)
+{
+    std::string results;
+    for (char ch : verb)
+    {
+        if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'u')
+        {
+            results.push_back('_');
+        }
+        else
+        {
+            results.push_back(ch);
+        }
+    }
+    return results;
+}
+
+std::vector<std::string> PdgmApp::splitForms(std::string &str)
+{
+    std::vector<std::string> tokens;
+    size_t start = 0;
+    std::string delimiter{", "};
+    size_t end = str.find(delimiter);
+
+    while (end != std::string::npos)
+    {
+        tokens.push_back(str.substr(start, end - start));
+        start = end + delimiter.size();
+        end = str.find(delimiter, start);
+    }
+
+    tokens.push_back(str.substr(start));
+    return tokens;
+}
 
 } // namespace gwr::frqz

@@ -20,12 +20,9 @@
 int main()
 {
     gwr::frqz::PdgmApp app;
-
-    app.onDraw() = [&app](visage::Canvas &canvas) {
-        canvas.setColor(0xffff00ff);
-        canvas.fill(0, 0, app.width(), app.height());
-    };
-
+    visage::Palette palette_;
+    palette_.setColor(visage::UiButton::UiActionButtonBackground, 0xff555555);
+    app.setPalette(&palette_);
     app.show(1200, 900);
     app.runEventLoop();
     return 0;

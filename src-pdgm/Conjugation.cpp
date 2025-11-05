@@ -4,6 +4,8 @@ using namespace visage::dimension;
 
 namespace gwr::frqz
 {
+VISAGE_THEME_COLOR(WRONG, 0xff991212);
+VISAGE_THEME_COLOR(RIGHT, 0xff129912);
 
 Conjugation::Conjugation()
 {
@@ -92,6 +94,14 @@ Conjugation::Conjugation()
     pns[5] = &pn6;
 }
 
+void Conjugation::draw(visage::Canvas &canvas)
+{
+    if (name_.empty())
+        return;
+    else
+        canvas.text(name_, font, visage::Font::Justification::kCenter, 0, 0, 100_vw, 15_vh);
+}
+
 void Conjugation::clearAll()
 {
     for (size_t i = 0; i < 6; ++i)
@@ -99,6 +109,117 @@ void Conjugation::clearAll()
         es[i]->clear();
         dbForms[i].clear();
     }
+}
+
+void Conjugation::readContents()
+{
+    for (size_t i = 0; i < 6; ++i)
+    {
+        userForms[i] = es[i]->text().toUtf8();
+    }
+}
+
+void Conjugation::color()
+{
+    for (size_t i = 0; i < 6; ++i)
+    {
+        if (userForms[i].empty())
+            continue;
+        if (replaceAccents(userForms[i]).compare(replaceAccents(dbForms[i])) == 0)
+            grn(es[i]);
+        else
+            red(es[i]);
+    }
+}
+
+void Conjugation::clearColors()
+{
+    for (size_t i = 0; i < 6; ++i)
+    {
+        blk(es[i]);
+    }
+}
+
+void Conjugation::clearPronouns()
+{
+    for (size_t i = 0; i < 6; ++i)
+    {
+        blk(pns[i]);
+    }
+}
+void Conjugation::red(Label *l)
+{
+    l->setColor(visage::theme::ColorId::defaultColor(WRONG));
+    l->redraw();
+}
+void Conjugation::red(visage::TextEditor *e)
+{
+    e->setBackgroundColorId(WRONG);
+    e->redraw();
+}
+void Conjugation::grn(Label *l)
+{
+    l->setColor(visage::theme::ColorId::defaultColor(RIGHT));
+    l->redraw();
+}
+void Conjugation::grn(visage::TextEditor *e)
+{
+    e->setBackgroundColorId(RIGHT);
+    e->redraw();
+}
+void Conjugation::blk(Label *l)
+{
+    l->setColor(0xff000000);
+    l->redraw();
+}
+void Conjugation::blk(visage::TextEditor *e)
+{
+    e->setBackgroundColorId(visage::TextEditor::TextEditorBackground);
+    e->redraw();
+}
+
+std::string Conjugation::replaceAccents(std::string &input)
+{
+    std::string result;
+
+    for (size_t i = 0; i < input.size(); ++i)
+    {
+        if ((int)input[i] >= 0)
+        {
+            result.append(1, input[i]);
+        }
+        else
+        {
+            if ((int)input[i] == -61)
+            {
+                if (("â" == &input[i]) || ("à" == &input[i]) || ("á" == &input[i]))
+                {
+                    result.append("a");
+                }
+                if ("ç" == &input[i])
+                {
+                    result.append("c");
+                }
+                if (("è" == &input[i]) || ("é" == &input[i]) || ("ë" == &input[i]))
+                {
+                    result.append("e");
+                }
+                if (("î" == &input[i]) || ("ï" == &input[i]))
+                {
+                    result.append("i");
+                }
+                if ("ô" == &input[i])
+                {
+                    result.append("o");
+                }
+                if ("ü" == &input[i])
+                {
+                    result.append("u");
+                }
+            }
+        }
+    }
+    return result;
 }
 
 } // namespace gwr::frqz

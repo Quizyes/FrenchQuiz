@@ -13,8 +13,20 @@ class Conjugation : public visage::Frame
 {
   public:
     Conjugation();
-    // void draw(visage::Canvas &canvas) override;
+    void draw(visage::Canvas &canvas) override;
     void clearAll();
+    void readContents();
+    void color();
+    void clearColors();
+    void clearPronouns();
+    void red(Label *l);
+    void red(visage::TextEditor *e);
+    void grn(Label *l);
+    void grn(visage::TextEditor *e);
+    void blk(Label *l);
+    void blk(visage::TextEditor *e);
+    std::string replaceAccents(std::string &verb);
+    std::string name_;
     std::array<std::string, 6> userForms, dbForms;
     std::array<bool, 6> isCorrect{true};
     visage::TextEditor e1, e2, e3, e4, e5, e6;

@@ -18,6 +18,7 @@
 
 #include <visage_app/application_window.h>
 #include <visage_file_embed/embedded_file.h>
+#include <visage_widgets/button.h>
 #include "embedded/fonts.h"
 #include "Conjugation.h"
 #include "ParadigmDbm.h"
@@ -29,15 +30,24 @@ class PdgmApp : public visage::ApplicationWindow
 {
   public:
     PdgmApp();
+    void draw(visage::Canvas &canvas) override;
     void newQuiz();
     void newQuiz(std::string &inverb);
     void markQuiz();
     void compare();
+    SQLite::Statement getQuery(std::string &inverb);
     std::string replaceAccents(std::string &verb);
-    Conjugation cPres, cImpf, cPs, cImperat, cFut, cCond, cSubjPres, cSubjPast;
+    std::string replaceUnaccented(std::string &verb);
+    std::vector<std::string> splitForms(std::string &entry);
+    visage::Frame header, body, left, right;
+    Conjugation cPres, cImpf, cPs, cImper, cFut, cCond, cSubjPres, cSubjImpf;
+    std::array<Conjugation *, 8> cs;
+    visage::UiButton newBtn{"New"}, markBtn{"Mark"}, cmpBtn{"Compare"};
+    visage::TextEditor headword;
     bool userInputIsShown{true}, quizIsMarked{false};
-    visage::Font font{50, resources::fonts::Lato_Regular_ttf};
+    visage::Font font{80, resources::fonts::Lato_Regular_ttf};
     ParadigmDbm dbm;
+    Label quizUnderway;
 };
 
 } // namespace gwr::frqz

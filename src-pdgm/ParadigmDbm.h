@@ -10,8 +10,8 @@ namespace gwr::frqz
 class ParadigmDbm
 {
   public:
-    ParadigmDbm(std::string dbName);
     SQLite::Database db;
+    ParadigmDbm(std::string dbName);
     SQLite::Statement getStmt(std::string sql);
 };
 

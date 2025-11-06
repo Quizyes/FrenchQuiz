@@ -1,1 +1,6 @@
 -- factor out string-splitters and coloring logic
+
+-- option to require accents
+    -- needs way to enter them reliably?
+
+-- fonts / colors / look

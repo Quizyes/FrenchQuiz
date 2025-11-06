@@ -126,9 +126,15 @@ void Conjugation::color()
         if (userForms[i].empty())
             continue;
         if (replaceAccents(userForms[i]).compare(replaceAccents(dbForms[i])) == 0)
+        {
             grn(es[i]);
+            grn(pns[i]);
+        }
         else
+        {
             red(es[i]);
+            red(pns[i]);
+        }
     }
 }
 
@@ -137,6 +143,7 @@ void Conjugation::clearColors()
     for (size_t i = 0; i < 6; ++i)
     {
         blk(es[i]);
+        blk(pns[i]);
     }
 }
 

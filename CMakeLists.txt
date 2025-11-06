@@ -10,6 +10,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(PROJECT_NAME "FrenchQuiz")
 set(EXEC1 "Paradigms")
 set(EXEC2 "Recognition")
+set(EXEC3 "Production")
 project(${PROJECT_NAME} VERSION 0.1.0 LANGUAGES CXX C)
 
 # assuming visage has been added as a submodule
@@ -36,7 +37,12 @@ add_executable(${EXEC2}
   src-rcgn/QuizItem.cpp
 )
 
-include_directories(libs/visage libs/SQLiteCpp src-pdgm src-rcgn)
+add_executable(${EXEC3}
+  src-prdn/main.cpp
+  src-prdn/PrdnApp.cpp
+)
+
+include_directories(libs/visage libs/SQLiteCpp src-pdgm src-rcgn src-prdn)
 
 if (EMSCRIPTEN)
     MESSAGE(STATUS "Building for WebAssembly")    
@@ -76,6 +82,24 @@ if (EMSCRIPTEN)
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/site"
   )
 
+  target_link_options(${EXEC3}
+    PRIVATE
+    --shell-file ${CMAKE_CURRENT_SOURCE_DIR}/minshell.html
+    -sGL_ENABLE_GET_PROC_ADDRESS
+    -sALLOW_MEMORY_GROWTH=1
+    --bind
+    -s STACK_SIZE=48MB
+    "-sEXPORTED_FUNCTIONS=['_main', '_pasteCallback']"
+    "-sEXPORTED_RUNTIME_METHODS=['ccall', 'cwrap', 'UTF8ToString']"
+    "-sNO_DISABLE_EXCEPTION_CATCHING"
+  )
+
+  set_target_properties(${EXEC3} PROPERTIES
+    SUFFIX ".html"
+    OUTPUT_NAME "productions"
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/site"
+  )
+
 endif()
 
 target_link_libraries(${EXEC1} PRIVATE
@@ -87,6 +111,14 @@ target_link_libraries(${EXEC1} PRIVATE
 )
 
 target_link_libraries(${EXEC2} PRIVATE
+  visage
+  EmbeddedFontResources
+  EmbeddedDbResources
+  SQLiteCpp
+  sqlite3 # ${SQL} 
+)
+
+target_link_libraries(${EXEC3} PRIVATE
   visage
   EmbeddedFontResources
   EmbeddedDbResources

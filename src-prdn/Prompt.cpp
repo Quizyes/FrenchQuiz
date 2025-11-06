@@ -26,6 +26,10 @@ Prompt::Prompt()
 
     head.layout().setDimensions(20_vw, 100_vh);
     parse.layout().setDimensions(55_vw, 100_vh);
+    for (auto p : {&head, &parse})
+    {
+        p->setFont(font.withSize(25.f));
+    }
 }
 
 void Prompt::clear()

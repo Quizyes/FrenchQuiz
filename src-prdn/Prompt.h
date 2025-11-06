@@ -19,7 +19,7 @@
 #include <visage_widgets/text_editor.h>
 #include <visage_utils/dimension.h>
 #include <visage_file_embed/embedded_file.h>
-#include "embedded/fonts.h"
+#include <embedded/fonts.h>
 #include "Label.h"
 
 namespace gwr::frqz
@@ -41,7 +41,8 @@ class Prompt : public visage::Frame
 
     std::string replaceAccentedCharacters(std::string &input);
 
-    visage::Font font{25, resources::fonts::Lato_Regular_ttf};
+    // visage::Font font{55, resources::fonts::Lato_Regular_ttf};
+    visage::Font font{55, visage::fonts::Lato_Regular_ttf};
     Label head, parse;
     visage::TextEditor form;
     std::string userForm, dbForm;

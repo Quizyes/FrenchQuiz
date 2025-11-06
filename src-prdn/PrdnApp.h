@@ -21,7 +21,7 @@
 #include <visage_ui/popup_menu.h>
 #include <visage_utils/dimension.h>
 #include <visage_file_embed/embedded_file.h>
-#include "embedded/fonts.h"
+#include <embedded/fonts.h>
 #include <emscripten.h>
 #include "DbManager.h"
 #include "Label.h"
@@ -43,7 +43,7 @@ class PrdnApp : public visage::ApplicationWindow
     bool userInputIsShown{true}; // true when fields show USER input
     bool quizIsMarked{false};
 
-    visage::Font font{55, resources::fonts::Lato_Regular_ttf};
+    visage::Font font{55, visage::fonts::Lato_Regular_ttf};
     visage::Frame header, colHead, body;
     visage::UiButton helpBtn{"?"}, newBtn{"New"}, markBtn{"Mark"}, cmpBtn{"Compare"},
         optionsBtn{"Options"};

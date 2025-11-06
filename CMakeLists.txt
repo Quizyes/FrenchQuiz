@@ -16,9 +16,9 @@ project(${PROJECT_NAME} VERSION 0.1.0 LANGUAGES CXX C)
 # assuming visage has been added as a submodule
 add_subdirectory(libs/visage)
 file(GLOB_RECURSE FONT_TTF_FILES fonts/*.ttf)
-add_embedded_resources(EmbeddedFontResources "fonts.h" "resources::fonts" "${FONT_TTF_FILES}")
+add_embedded_resources(EmbeddedFontResources "myfonts.h" "resources::fonts" "${FONT_TTF_FILES}")
 file(GLOB_RECURSE SQL_FILES dbs/*.db)
-add_embedded_resources(EmbeddedDbResources "dbs.h" "resources::dbs" "${SQL_FILES}")
+add_embedded_resources(EmbeddedDbResources "mydbs.h" "resources::dbs" "${SQL_FILES}")
 
 # ditto for SQLiteCpp
 add_subdirectory(libs/SQLiteCpp)
@@ -106,7 +106,8 @@ endif()
 
 target_link_libraries(${EXEC1} PRIVATE
   visage
-  EmbeddedFontResources
+  VisageEmbeddedFonts
+  #EmbeddedFontResources
   EmbeddedDbResources
   SQLiteCpp
   sqlite3 # ${SQL} 
@@ -114,7 +115,8 @@ target_link_libraries(${EXEC1} PRIVATE
 
 target_link_libraries(${EXEC2} PRIVATE
   visage
-  EmbeddedFontResources
+  VisageEmbeddedFonts
+  #EmbeddedFontResources
   EmbeddedDbResources
   SQLiteCpp
   sqlite3 # ${SQL} 
@@ -122,7 +124,8 @@ target_link_libraries(${EXEC2} PRIVATE
 
 target_link_libraries(${EXEC3} PRIVATE
   visage
-  EmbeddedFontResources
+  VisageEmbeddedFonts
+  # EmbeddedFontResources
   EmbeddedDbResources
   SQLiteCpp
   sqlite3 # ${SQL} 

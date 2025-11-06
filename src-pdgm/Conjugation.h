@@ -3,7 +3,7 @@
 #include <visage_ui/frame.h>
 #include <visage_widgets/text_editor.h>
 #include <visage_file_embed/embedded_file.h>
-#include "embedded/fonts.h"
+#include <embedded/fonts.h>
 #include "Label.h"
 
 namespace gwr::frqz
@@ -35,7 +35,7 @@ class Conjugation : public visage::Frame
     std::array<Label *, 6> pns;
     visage::Frame singPns, plPns, singForms, plForms;
     visage::Frame header, body;
-    visage::Font font{50, resources::fonts::Lato_Regular_ttf};
+    visage::Font font{50, visage::fonts::Lato_Regular_ttf};
 };
 
 } // namespace gwr::frqz

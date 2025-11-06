@@ -20,7 +20,6 @@
 #include <visage_app/application_window.h>
 #include <visage_file_embed/embedded_file.h>
 #include <visage_widgets/button.h>
-#include "embedded/fonts.h"
 #include "Conjugation.h"
 #include "ParadigmDbm.h"
 
@@ -46,7 +45,7 @@ class PdgmApp : public visage::ApplicationWindow
     visage::UiButton newBtn{"New"}, markBtn{"Mark"}, cmpBtn{"Compare"};
     visage::TextEditor headword;
     bool userInputIsShown{true}, quizIsMarked{false};
-    visage::Font font{80, resources::fonts::Lato_Regular_ttf};
+    visage::Font font{80, visage::fonts::Lato_Regular_ttf};
     ParadigmDbm dbm;
     Label quizUnderway;
 };

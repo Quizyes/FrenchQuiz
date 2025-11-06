@@ -16,7 +16,7 @@
 #pragma once
 
 #include <visage/app.h>
-#include "embedded/fonts.h"
+#include <embedded/fonts.h>
 
 class Label : public visage::Frame
 {
@@ -25,7 +25,7 @@ class Label : public visage::Frame
     visage::String text_;
     bool outline{true};
     std::vector<visage::String> tokens_;
-    visage::Font fontEn{25, resources::fonts::Lato_Regular_ttf};
+    visage::Font fontEn{55, visage::fonts::Lato_Regular_ttf};
     visage::Color color_{visage::Color(0xff000000)};
     bool centered{true};
     void setColor(const visage::Color &color)

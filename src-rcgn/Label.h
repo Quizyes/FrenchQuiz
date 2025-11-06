@@ -25,7 +25,7 @@ class Label : public visage::Frame
     visage::String text_;
     bool outline{true};
     std::vector<visage::String> tokens_;
-    visage::Font fontEn{25, resources::fonts::Lato_Regular_ttf};
+    visage::Font fontEn{55, visage::fonts::Lato_Regular_ttf};
     visage::Color color_{visage::Color(0xff000000)};
     bool centered{true};
     void setColor(const visage::Color &color)
@@ -71,9 +71,10 @@ class Label : public visage::Frame
         }
         canvas.setColor(color_);
         if (centered)
-            canvas.text(text_, fontEn, visage::Font::Justification::kCenter, 0, 0, width(),
-                        height());
+            canvas.text(text_, fontEn.withSize(25.f), visage::Font::Justification::kCenter, 0, 0,
+                        width(), height());
         else
-            canvas.text(text_, fontEn, visage::Font::Justification::kTop, 0, 0, width(), height());
+            canvas.text(text_, fontEn.withSize(25.f), visage::Font::Justification::kTop, 0, 0,
+                        width(), height());
     }
 };

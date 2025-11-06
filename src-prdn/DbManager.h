@@ -17,7 +17,7 @@
 #pragma once
 #include <SQLiteCpp/SQLiteCpp.h>
 #include <visage_file_embed/embedded_file.h>
-#include "embedded/dbs.h"
+#include "embedded/mydbs.h"
 #include <sqlite3.h>
 
 namespace gwr::frqz

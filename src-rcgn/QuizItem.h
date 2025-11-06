@@ -18,7 +18,7 @@
 #include <visage_ui/frame.h>
 #include <visage_widgets/text_editor.h>
 #include <visage_file_embed/embedded_file.h>
-#include "embedded/fonts.h"
+#include <embedded/fonts.h>
 #include "Label.h"
 #include <set>
 
@@ -56,7 +56,7 @@ class QuizItem : public visage::Frame
     bool compareParses(std::string &user, std::string &db);
     std::string replaceAccentedCharacters(std::string &input);
 
-    visage::Font font{25, resources::fonts::Lato_Regular_ttf};
+    visage::Font font{25, visage::fonts::Lato_Regular_ttf};
     Label form;
     visage::TextEditor head, parse;
     std::string userHead, userParse, dbHead, dbParse;

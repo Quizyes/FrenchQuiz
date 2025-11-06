@@ -40,6 +40,7 @@ add_executable(${EXEC2}
 add_executable(${EXEC3}
   src-prdn/main.cpp
   src-prdn/PrdnApp.cpp
+  src-prdn/DbManager.cpp
 )
 
 include_directories(libs/visage libs/SQLiteCpp src-pdgm src-rcgn src-prdn)

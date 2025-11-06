@@ -140,18 +140,18 @@ void PdgmApp::newQuiz(std::string &inverb)
         subjImpf;
     while (st.executeStep())
     {
-        verb = st.getColumn("infinitive").getString();
-        pres = st.getColumn("present").getString();
-        impf = st.getColumn("imperfect").getString();
-        imperat = st.getColumn("imperative").getString();
-        pastPart = st.getColumn("pastParticiple").getString();
-        presPart = st.getColumn("presParticiple").getString();
-        aux = st.getColumn("auxiliary").getString();
-        fut = st.getColumn("future").getString();
-        cond = st.getColumn("conditional").getString();
-        ps = st.getColumn("passeSimple").getString();
-        subjPres = st.getColumn("subjunctivePres").getString();
-        subjImpf = st.getColumn("subjunctiveImpf").getString();
+        verb = st.getColumn("inf").getString();
+        pres = st.getColumn("pres").getString();
+        impf = st.getColumn("impf").getString();
+        imperat = st.getColumn("imperat").getString();
+        pastPart = st.getColumn("pastPart").getString();
+        presPart = st.getColumn("presPart").getString();
+        aux = st.getColumn("aux").getString();
+        fut = st.getColumn("fut").getString();
+        cond = st.getColumn("cond").getString();
+        ps = st.getColumn("past").getString();
+        subjPres = st.getColumn("subjPres").getString();
+        subjImpf = st.getColumn("subjImpf").getString();
     }
     headword.setText(verb);
 
@@ -220,19 +220,50 @@ void PdgmApp::markQuiz()
     redraw();
 }
 
-void PdgmApp::compare() {}
+void PdgmApp::compare()
+{
+    if (!quizIsMarked)
+    {
+        return;
+    }
+
+    if (userInputIsShown)
+    {
+        for (auto conj : cs)
+        {
+            for (size_t i = 0; i < 6; ++i)
+            {
+                conj->es[i]->setText(conj->dbForms[i]);
+            }
+            conj->clearColors();
+        }
+    }
+    else
+    {
+        for (auto conj : cs)
+        {
+            for (size_t i = 0; i < 6; ++i)
+            {
+                conj->es[i]->setText(conj->userForms[i]);
+            }
+            conj->color();
+        }
+    }
+    userInputIsShown = !userInputIsShown;
+    redraw();
+}
 
 SQLite::Statement PdgmApp::getQuery(std::string &inverb)
 {
     if (!inverb.empty())
     {
         auto likeV = replaceUnaccented(inverb);
-        auto st = dbm.getStmt("select infinitive from frenchVerbs where infinitive like ?;");
+        auto st = dbm.getStmt("select inf from paradigms where inf like ?;");
         st.bind(1, likeV);
         std::vector<std::string> infs;
         while (st.executeStep())
         {
-            infs.push_back(st.getColumn("infinitive").getString());
+            infs.push_back(st.getColumn("inf").getString());
         }
 
         std::string finalForm;
@@ -245,18 +276,17 @@ SQLite::Statement PdgmApp::getQuery(std::string &inverb)
         }
         if (!finalForm.empty())
         {
-            st = dbm.getStmt(
-                "select infinitive, present, imperfect, presParticiple, pastParticiple, auxiliary, "
-                "imperative, future, conditional, passeSimple, "
-                "subjunctivePres, subjunctiveImpf from frenchVerbs where infinitive = ?;");
+            std::cout << "form of verb: " << finalForm << std::endl;
+            st = dbm.getStmt("select inf, pres, impf, presPart, pastPart, aux, "
+                             "imperat, fut, cond, past, "
+                             "subjPres, subjImpf from paradigms where inf = ?;");
             st.bind(1, finalForm);
             return st;
         }
     } // else
-    auto st =
-        dbm.getStmt("select infinitive, present, imperfect, presParticiple, pastParticiple, "
-                    "auxiliary, imperative, future, conditional, passeSimple, "
-                    "subjunctivePres, subjunctiveImpf from frenchVerbs order by random() limit 1;");
+    auto st = dbm.getStmt("select inf, pres, impf, presPart, pastPart, "
+                          "aux, imperat, fut, cond, past, "
+                          "subjPres, subjImpf from paradigms order by random() limit 1;");
     return st;
 }
 

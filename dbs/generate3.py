@@ -44,6 +44,8 @@ for verb in data:
         continue
     if verb["infinitif"][1] == '\'': # elided reflexives
         continue
+    if (verb["infinitif"] == "asseoir") or (verb["infinitif"] == "rasseoir") or (verb["infinitif"] == "rassoir"):
+        continue
     #print(verb["infinitif"])
     inf = verb["infinitif"]
     inf = acc(inf)

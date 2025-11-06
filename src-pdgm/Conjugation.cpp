@@ -199,27 +199,27 @@ std::string Conjugation::replaceAccents(std::string &input)
         {
             if ((int)input[i] == -61)
             {
-                if (("â" == &input[i]) || ("à" == &input[i]) || ("á" == &input[i]))
+                if (((int)input[i + 1] >= -96) && ((int)input[i + 1] <= -90))
                 {
                     result.append("a");
                 }
-                if ("ç" == &input[i])
+                if (((int)input[i + 1] == -89))
                 {
                     result.append("c");
                 }
-                if (("è" == &input[i]) || ("é" == &input[i]) || ("ë" == &input[i]))
+                if (((int)input[i + 1] >= -88) && ((int)input[i + 1] <= -85))
                 {
                     result.append("e");
                 }
-                if (("î" == &input[i]) || ("ï" == &input[i]))
+                if (((int)input[i + 1] >= -84) && ((int)input[i + 1] <= -81))
                 {
                     result.append("i");
                 }
-                if ("ô" == &input[i])
+                if (((int)input[i + 1] >= -78) && ((int)input[i + 1] <= -72))
                 {
                     result.append("o");
                 }
-                if ("ü" == &input[i])
+                if (((int)input[i + 1] >= -71) && ((int)input[i + 1] <= -68))
                 {
                     result.append("u");
                 }

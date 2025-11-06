@@ -176,6 +176,8 @@ void PdgmApp::newQuiz(std::string &inverb)
         for (auto &c : cs)
         {
             c->es[i]->clear();
+            c->es[i]->setBackgroundColorId(visage::TextEditor::TextEditorBackground);
+            c->pns[i]->setColor(0xff000000);
         }
 
         cPres.dbForms[i] = presForms[i];

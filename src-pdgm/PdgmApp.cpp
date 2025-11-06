@@ -5,7 +5,7 @@ using namespace visage::dimension;
 namespace gwr::frqz
 {
 
-VISAGE_THEME_COLOR(AppBkgd, 0xff999999);
+VISAGE_THEME_COLOR(AppBkgd, 0xffbbbbbb);
 
 PdgmApp::PdgmApp() : dbm(":memory:")
 {

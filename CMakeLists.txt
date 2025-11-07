@@ -15,8 +15,8 @@ project(${PROJECT_NAME} VERSION 0.1.0 LANGUAGES CXX C)
 
 # assuming visage has been added as a submodule
 add_subdirectory(libs/visage)
-file(GLOB_RECURSE FONT_TTF_FILES fonts/*.ttf)
-add_embedded_resources(EmbeddedFontResources "myfonts.h" "resources::fonts" "${FONT_TTF_FILES}")
+  #file(GLOB_RECURSE FONT_TTF_FILES fonts/*.ttf)
+  #add_embedded_resources(EmbeddedFontResources "myfonts.h" "resources::fonts" "${FONT_TTF_FILES}")
 file(GLOB_RECURSE SQL_FILES dbs/*.db)
 add_embedded_resources(EmbeddedDbResources "mydbs.h" "resources::dbs" "${SQL_FILES}")
 
@@ -44,7 +44,7 @@ add_executable(${EXEC3}
   src-prdn/Prompt.cpp
 )
 
-include_directories(libs/visage libs/SQLiteCpp src-pdgm src-rcgn src-prdn)
+include_directories(libs/visage libs/SQLiteCpp src-pdgm src-rcgn src-prdn src-common)
 
 if (EMSCRIPTEN)
     MESSAGE(STATUS "Building for WebAssembly")    

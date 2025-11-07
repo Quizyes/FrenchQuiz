@@ -1,3 +1,19 @@
+//////////////////////////////////////////////////////////////////////////
+//                                                                      //
+// French Quiz - a suite of apps for learning the French verb.          //
+//                                                                      //
+// Copyright 2025, Greg Recco                                           //
+//                                                                      //
+// French Quiz is released under the GNU General Public Licence v3      //
+// or later (GPL-3.0-or-later). The license is found in the "LICENSE"   //
+// file in the root of this repository, or at                           //
+// https://www.gnu.org/licenses/gpl-3.0.en.html                         //
+//                                                                      //
+// The source code repository for French Quiz is available at           //
+// https://github.com/Quizyes/FrenchQuiz                                //
+//                                                                      //
+//////////////////////////////////////////////////////////////////////////
+
 #include "PdgmApp.h"
 
 using namespace visage::dimension;
@@ -177,7 +193,7 @@ void PdgmApp::newQuiz(std::string &inverb)
         {
             c->es[i]->clear();
             c->es[i]->setBackgroundColorId(visage::TextEditor::TextEditorBackground);
-            c->pns[i]->setColor(0xff000000);
+            // c->pns[i]->setColor(0xff000000);
         }
 
         cPres.dbForms[i] = presForms[i];
@@ -208,8 +224,10 @@ void PdgmApp::markQuiz()
         conj->readContents();
         for (size_t i = 0; i < 6; ++i)
         {
-            conj->isCorrect[i] =
-                replaceAccents(conj->userForms[i]).compare(replaceAccents(conj->dbForms[i]));
+            if (replaceAccents(conj->userForms[i]).compare(replaceAccents(conj->dbForms[i])) == 0)
+                conj->isCorrect[i] = true;
+            else
+                conj->isCorrect[i] = false;
         }
         conj->color();
     }
@@ -296,7 +314,6 @@ std::string PdgmApp::replaceAccents(std::string &input)
 {
 
     std::string result;
-
     for (size_t i = 0; i < input.size(); ++i)
     {
         if ((int)input[i] >= 0)

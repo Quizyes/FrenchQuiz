@@ -22,6 +22,7 @@
 #include <visage_widgets/button.h>
 #include "Conjugation.h"
 #include "ParadigmDbm.h"
+#include "Utils.h"
 
 namespace gwr::frqz
 {

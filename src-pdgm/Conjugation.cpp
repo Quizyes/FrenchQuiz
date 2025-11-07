@@ -1,3 +1,19 @@
+//////////////////////////////////////////////////////////////////////////
+//                                                                      //
+// French Quiz - a suite of apps for learning the French verb.          //
+//                                                                      //
+// Copyright 2025, Greg Recco                                           //
+//                                                                      //
+// French Quiz is released under the GNU General Public Licence v3      //
+// or later (GPL-3.0-or-later). The license is found in the "LICENSE"   //
+// file in the root of this repository, or at                           //
+// https://www.gnu.org/licenses/gpl-3.0.en.html                         //
+//                                                                      //
+// The source code repository for French Quiz is available at           //
+// https://github.com/Quizyes/FrenchQuiz                                //
+//                                                                      //
+//////////////////////////////////////////////////////////////////////////
+
 #include "Conjugation.h"
 
 using namespace visage::dimension;
@@ -125,7 +141,7 @@ void Conjugation::color()
     {
         if (userForms[i].empty())
             continue;
-        if (replaceAccents(userForms[i]).compare(replaceAccents(dbForms[i])) == 0)
+        if (isCorrect[i])
         {
             grn(es[i]);
             grn(pns[i]);
@@ -187,6 +203,7 @@ void Conjugation::blk(visage::TextEditor *e)
 
 std::string Conjugation::replaceAccents(std::string &input)
 {
+    return input;
     std::string result;
 
     for (size_t i = 0; i < input.size(); ++i)

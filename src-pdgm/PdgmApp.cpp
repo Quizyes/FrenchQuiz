@@ -189,7 +189,7 @@ void PdgmApp::newQuiz(std::string &inverb)
 
     for (size_t i = 0; i < 6; ++i)
     {
-        for (auto &c : cs)
+        for (auto c : cs)
         {
             c->es[i]->clear();
             c->es[i]->setBackgroundColorId(visage::TextEditor::TextEditorBackground);

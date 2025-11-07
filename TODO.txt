@@ -1,6 +1,9 @@
+-- 1) chapters
+-- 2) accents
+-- 3) definitions
+
+-- add version number to ... something
 -- factor out string-splitters and coloring logic
 -- option to require accents
     -- needs way to enter them reliably?
 -- fonts / colors / look
-
--- add version number to ... something

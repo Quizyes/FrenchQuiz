@@ -42,7 +42,6 @@ class Conjugation : public visage::Frame
     void grn(visage::TextEditor *e);
     void blk(Label *l);
     void blk(visage::TextEditor *e);
-    std::string replaceAccents(std::string &verb);
     std::string name_;
     std::array<std::string, 6> userForms, dbForms;
     std::array<bool, 6> isCorrect{true};

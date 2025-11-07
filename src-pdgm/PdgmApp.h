@@ -37,8 +37,8 @@ class PdgmApp : public visage::ApplicationWindow
     void markQuiz();
     void compare();
     SQLite::Statement getQuery(std::string &inverb);
-    std::string replaceAccents(std::string &verb);
-    std::string replaceUnaccented(std::string &verb);
+    std::string replaceAccents(std::string verb);
+    std::string replaceUnaccented(std::string verb);
     std::vector<std::string> splitForms(std::string &entry);
     visage::Frame header, body, left, right;
     Conjugation cPres, cImpf, cPs, cImper, cFut, cCond, cSubjPres, cSubjImpf;

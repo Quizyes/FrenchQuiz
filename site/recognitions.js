@@ -848,25 +848,25 @@ async function createWasm() {
 // === Body ===
 
 var ASM_CONSTS = {
-  53136508: () => { window.open("help.html", "myPopup", "width=900,height=600,resizable=yes,scrollbars=yes,location=no,menubar=no,toolbar=no,status=no") },  
- 53136641: () => { document.addEventListener( 'paste', function(event) { navigator.clipboard.readText() .then(function(text) { ccall('pasteCallback', null, ['string'], [text]); }) .catch(function(err) { console.error("Failed to access clipboard:", err); }); }); },  
- 53136888: ($0) => { var text = UTF8ToString($0); navigator.clipboard.writeText(text).then(function() {}).catch(function(err) { console.error("Failed to copy text: ", err); }); },  
- 53137048: ($0) => { document.body.style.cursor = UTF8ToString($0); },  
- 53137099: () => { return window.devicePixelRatio; },  
- 53137135: () => { var canvas = document.getElementById('canvas'); var rect = canvas.getBoundingClientRect(); return rect.left; },  
- 53137248: () => { var canvas = document.getElementById('canvas'); var rect = canvas.getBoundingClientRect(); return rect.top; },  
- 53137360: () => { if (navigator.userAgentData && navigator.userAgentData.mobile) return 1; return new RegExp("Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini", "i") .test(navigator.userAgent); },  
- 53137552: () => { return window.innerWidth; },  
- 53137582: () => { return window.innerHeight; },  
- 53137613: () => { return window.innerWidth; },  
- 53137643: () => { return window.innerHeight; },  
- 53137674: () => { return screen.width; },  
- 53137699: () => { return screen.height; },  
- 53137725: () => { var canvas = document.getElementById('canvas'); var rect = canvas.getBoundingClientRect(); return rect.left; },  
- 53137838: () => { var canvas = document.getElementById('canvas'); var rect = canvas.getBoundingClientRect(); return rect.top; },  
- 53137950: () => { var canvas = document.getElementById('canvas'); var rect = canvas.getBoundingClientRect(); return rect.left; },  
- 53138063: () => { var canvas = document.getElementById('canvas'); var rect = canvas.getBoundingClientRect(); return rect.top; },  
- 53138175: () => { debugger; }
+  53136540: () => { window.open("help.html", "myPopup", "width=900,height=600,resizable=yes,scrollbars=yes,location=no,menubar=no,toolbar=no,status=no") },  
+ 53136673: () => { document.addEventListener( 'paste', function(event) { navigator.clipboard.readText() .then(function(text) { ccall('pasteCallback', null, ['string'], [text]); }) .catch(function(err) { console.error("Failed to access clipboard:", err); }); }); },  
+ 53136920: ($0) => { var text = UTF8ToString($0); navigator.clipboard.writeText(text).then(function() {}).catch(function(err) { console.error("Failed to copy text: ", err); }); },  
+ 53137080: ($0) => { document.body.style.cursor = UTF8ToString($0); },  
+ 53137131: () => { return window.devicePixelRatio; },  
+ 53137167: () => { var canvas = document.getElementById('canvas'); var rect = canvas.getBoundingClientRect(); return rect.left; },  
+ 53137280: () => { var canvas = document.getElementById('canvas'); var rect = canvas.getBoundingClientRect(); return rect.top; },  
+ 53137392: () => { if (navigator.userAgentData && navigator.userAgentData.mobile) return 1; return new RegExp("Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini", "i") .test(navigator.userAgent); },  
+ 53137584: () => { return window.innerWidth; },  
+ 53137614: () => { return window.innerHeight; },  
+ 53137645: () => { return window.innerWidth; },  
+ 53137675: () => { return window.innerHeight; },  
+ 53137706: () => { return screen.width; },  
+ 53137731: () => { return screen.height; },  
+ 53137757: () => { var canvas = document.getElementById('canvas'); var rect = canvas.getBoundingClientRect(); return rect.left; },  
+ 53137870: () => { var canvas = document.getElementById('canvas'); var rect = canvas.getBoundingClientRect(); return rect.top; },  
+ 53137982: () => { var canvas = document.getElementById('canvas'); var rect = canvas.getBoundingClientRect(); return rect.left; },  
+ 53138095: () => { var canvas = document.getElementById('canvas'); var rect = canvas.getBoundingClientRect(); return rect.top; },  
+ 53138207: () => { debugger; }
 };
 
 // end include: preamble.js

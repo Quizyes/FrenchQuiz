@@ -211,7 +211,7 @@ void PrdnApp::markQuiz()
 {
     if (!userInputIsShown)
         return;
-    for (auto &item : items)
+    for (auto item : items)
     {
         item->mark();
         item->redraw();
@@ -231,7 +231,7 @@ void PrdnApp::compare()
 
     if (userInputIsShown)
     {
-        for (auto &item : items)
+        for (auto item : items)
         {
             item->form.setText(item->dbForm);
             item->form.setBackgroundColorId(visage::TextEditor::TextEditorBackground);
@@ -239,7 +239,7 @@ void PrdnApp::compare()
     }
     else
     {
-        for (auto &item : items)
+        for (auto item : items)
         {
             item->form.setText(item->userForm);
             item->color();

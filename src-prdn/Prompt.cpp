@@ -57,10 +57,8 @@ void Prompt::clear()
 void Prompt::readEntries() { userForm = form.text().toUtf8(); }
 void Prompt::check()
 {
-    if (replaceAccentedCharacters(userForm).compare(replaceAccentedCharacters(dbForm)) == 0)
-    {
+    if (replaceAccentedCharacters(userForm) == replaceAccentedCharacters(dbForm))
         isCorrect = true;
-    }
     else
         isCorrect = false;
 }
@@ -69,9 +67,7 @@ void Prompt::color()
     if (userForm.empty())
         return;
     if (isCorrect)
-    {
         grn(&form);
-    }
     else
         red(&form);
 }
@@ -99,47 +95,19 @@ void Prompt::blk(visage::TextEditor *e)
     e->redraw();
 }
 
-std::string Prompt::replaceAccentedCharacters(std::string &input)
+std::string Prompt::replaceAccentedCharacters(std::string input)
 {
-    std::string result;
-    for (size_t i = 0; i < input.size(); ++i)
-    {
-        if ((int)input[i] >= 0)
-        {
-            result.append(1, input[i]);
-        }
-        else
-        {
-            if ((int)input[i] == -61)
-            {
-                if (((int)input[i + 1] >= -96) && ((int)input[i + 1] <= -90))
-                {
-                    result.append("a");
-                }
-                if (((int)input[i + 1] == -89))
-                {
-                    result.append("c");
-                }
-                if (((int)input[i + 1] >= -88) && ((int)input[i + 1] <= -85))
-                {
-                    result.append("e");
-                }
-                if (((int)input[i + 1] >= -84) && ((int)input[i + 1] <= -81))
-                {
-                    result.append("i");
-                }
-                if (((int)input[i + 1] >= -78) && ((int)input[i + 1] <= -72))
-                {
-                    result.append("o");
-                }
-                if (((int)input[i + 1] >= -71) && ((int)input[i + 1] <= -68))
-                {
-                    result.append("u");
-                }
-            }
-        }
-    }
-    return result;
+    Utils::replace(input, "\u00E0", "a");
+    Utils::replace(input, "\u00E2", "a");
+    Utils::replace(input, "\u00E7", "c");
+    Utils::replace(input, "\u00E8", "e");
+    Utils::replace(input, "\u00E9", "e");
+    Utils::replace(input, "\u00EA", "e");
+    Utils::replace(input, "\u00EE", "i");
+    Utils::replace(input, "\u00EF", "i");
+    Utils::replace(input, "\u00F4", "o");
+    Utils::replace(input, "\u00FB", "u");
+    return input;
 }
 
 } // namespace gwr::frqz

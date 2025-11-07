@@ -20,6 +20,7 @@
 #include <visage_file_embed/embedded_file.h>
 #include <embedded/fonts.h>
 #include "Label.h"
+#include "Utils.h"
 #include <set>
 
 namespace gwr::frqz
@@ -54,7 +55,7 @@ class QuizItem : public visage::Frame
 
     std::set<std::string> split(std::string &str, char delimiter = ' ');
     bool compareParses(std::string &user, std::string &db);
-    std::string replaceAccentedCharacters(std::string &input);
+    std::string replaceAccentedCharacters(std::string input);
 
     visage::Font font{25, visage::fonts::Lato_Regular_ttf};
     Label form;

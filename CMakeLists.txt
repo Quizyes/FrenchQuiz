@@ -11,7 +11,7 @@ set(PROJECT_NAME "FrenchQuiz")
 set(EXEC1 "Paradigms")
 set(EXEC2 "Recognition")
 set(EXEC3 "Production")
-project(${PROJECT_NAME} VERSION 0.1.0 LANGUAGES CXX C)
+project(${PROJECT_NAME} VERSION 1.0.1 LANGUAGES CXX C)
 
 # assuming visage has been added as a submodule
 add_subdirectory(libs/visage)

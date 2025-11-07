@@ -21,6 +21,7 @@
 #include <visage_file_embed/embedded_file.h>
 #include <embedded/fonts.h>
 #include "Label.h"
+#include "Utils.h"
 
 namespace gwr::frqz
 {
@@ -39,7 +40,7 @@ class Prompt : public visage::Frame
     void grn(visage::TextEditor *e);
     void blk(visage::TextEditor *e);
 
-    std::string replaceAccentedCharacters(std::string &input);
+    std::string replaceAccentedCharacters(std::string input);
 
     // visage::Font font{55, resources::fonts::Lato_Regular_ttf};
     visage::Font font{55, visage::fonts::Lato_Regular_ttf};

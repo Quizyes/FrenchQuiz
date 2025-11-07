@@ -201,49 +201,4 @@ void Conjugation::blk(visage::TextEditor *e)
     e->redraw();
 }
 
-std::string Conjugation::replaceAccents(std::string &input)
-{
-    return input;
-    std::string result;
-
-    for (size_t i = 0; i < input.size(); ++i)
-    {
-        if ((int)input[i] >= 0)
-        {
-            result.append(1, input[i]);
-        }
-        else
-        {
-            if ((int)input[i] == -61)
-            {
-                if (((int)input[i + 1] >= -96) && ((int)input[i + 1] <= -90))
-                {
-                    result.append("a");
-                }
-                if (((int)input[i + 1] == -89))
-                {
-                    result.append("c");
-                }
-                if (((int)input[i + 1] >= -88) && ((int)input[i + 1] <= -85))
-                {
-                    result.append("e");
-                }
-                if (((int)input[i + 1] >= -84) && ((int)input[i + 1] <= -81))
-                {
-                    result.append("i");
-                }
-                if (((int)input[i + 1] >= -78) && ((int)input[i + 1] <= -72))
-                {
-                    result.append("o");
-                }
-                if (((int)input[i + 1] >= -71) && ((int)input[i + 1] <= -68))
-                {
-                    result.append("u");
-                }
-            }
-        }
-    }
-    return result;
-}
-
 } // namespace gwr::frqz

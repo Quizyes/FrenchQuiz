@@ -40,20 +40,46 @@ RcgnApp::RcgnApp() : dbm(":memory:")
     header.layout().setPadding(8_vh);
     // header.outline = false;
 
-    header.addChild(helpBtn, true);
+    header.addChild(lessonLabel, true);
+    header.addChild(lesson, true);
     header.addChild(newBtn, true);
     header.addChild(markBtn, true);
     header.addChild(cmpBtn, true);
     header.addChild(optionsBtn, true);
+    header.addChild(helpBtn, true);
 
-    newBtn.layout().setDimensions(15_vw, 100_vh);
-    markBtn.layout().setDimensions(15_vw, 100_vh);
-    cmpBtn.layout().setDimensions(15_vw, 100_vh);
+    lessonLabel.layout().setDimensions(6_vw, 100_vh);
+    lesson.layout().setDimensions(5_vw, 100_vh);
+    newBtn.layout().setDimensions(11_vw, 100_vh);
+    markBtn.layout().setDimensions(11_vw, 100_vh);
+    cmpBtn.layout().setDimensions(11_vw, 100_vh);
     helpBtn.layout().setDimensions(5_vw, 100_vh);
-    optionsBtn.layout().setDimensions(15_vw, 100_vh);
+    optionsBtn.layout().setDimensions(12_vw, 100_vh);
+
+    lessonLabel.setText("Part #");
+    lessonLabel.setFont(font.withSize(17.f));
+    lessonLabel.outline = false;
+    lessonLabel.centered = false;
+
+    lesson.setFont(font.withSize(25.f));
+    lesson.onEnterKey() = [this]() {
+        auto num = lesson.text().toInt();
+        newQuiz(num);
+    };
+    lesson.setText("1");
 
     newBtn.setFont(font.withSize(25.f));
-    newBtn.onMouseDown() = [&](const visage::MouseEvent &e) { newQuiz(); };
+    newBtn.onMouseDown() = [&](const visage::MouseEvent &e) {
+        if (lesson.text().isEmpty())
+        {
+            newQuiz();
+        }
+        else
+        {
+            int l = lesson.text().toInt();
+            newQuiz(l);
+        }
+    };
 
     markBtn.setFont(font.withSize(25.f));
     markBtn.onMouseDown() = [&](const visage::MouseEvent &e) { markQuiz(); };
@@ -167,7 +193,7 @@ void RcgnApp::newQuiz()
 {
     auto st = dbm.getStmt("select head, form, parse from recogs where (parse not like ?) and "
                           "(parse not like ? and parse not like ?) and (parse not like ?) and "
-                          "(parse not like ?) order "
+                          "(parse not like ?) and (lesson <= ?) order "
                           "by random() limit 8;");
     if (!optBools[1])
         st.bind(1, "%past%");
@@ -191,6 +217,8 @@ void RcgnApp::newQuiz()
         st.bind(5, "%subj impf%");
     else
         st.bind(5, "zz");
+
+    st.bind(6, currentLesson);
 
     std::array<std::string, 8> heads, forms, parses;
     size_t idx{0};
@@ -219,6 +247,13 @@ void RcgnApp::newQuiz()
     quizIsMarked = false;
     cmpBtn.setActive(false);
     redraw();
+}
+
+void RcgnApp::newQuiz(int lesson)
+{
+    std::cout << "part #: " << lesson << std::endl;
+    currentLesson = (lesson > 0) ? lesson : 1;
+    newQuiz();
 }
 
 void RcgnApp::loadAlts()

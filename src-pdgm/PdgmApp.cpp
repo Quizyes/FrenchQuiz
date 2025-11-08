@@ -235,7 +235,7 @@ void PdgmApp::newQuiz(std::string &inverb)
 
 void PdgmApp::newQuiz(int lesson)
 {
-    currentLesson = lesson;
+    currentLesson = (lesson > 0) ? lesson : 1;
     newQuiz();
 }
 

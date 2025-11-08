@@ -34,6 +34,7 @@ class PdgmApp : public visage::ApplicationWindow
     void draw(visage::Canvas &canvas) override;
     void newQuiz();
     void newQuiz(std::string &inverb);
+    void newQuiz(int lesson);
     void markQuiz();
     void compare();
     SQLite::Statement getQuery(std::string &inverb);
@@ -44,7 +45,8 @@ class PdgmApp : public visage::ApplicationWindow
     Conjugation cPres, cImpf, cPs, cImper, cFut, cCond, cSubjPres, cSubjImpf;
     std::array<Conjugation *, 8> cs;
     visage::UiButton newBtn{"New"}, markBtn{"Mark"}, cmpBtn{"Compare"};
-    visage::TextEditor headword;
+    visage::TextEditor headword, lesson;
+    int currentLesson{10};
     bool userInputIsShown{true}, quizIsMarked{false};
     visage::Font font{80, visage::fonts::Lato_Regular_ttf};
     ParadigmDbm dbm;

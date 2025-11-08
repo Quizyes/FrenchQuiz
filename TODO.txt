@@ -2,8 +2,14 @@
 -- 2) accents
 -- 3) definitions
 
+
 -- add version number to ... something
 -- factor out string-splitters and coloring logic
 -- option to require accents
     -- needs way to enter them reliably?
 -- fonts / colors / look
+
+
+-- missing entry (in conjugations.json) for concevoir
+
+-- alt forms not working in recognitions

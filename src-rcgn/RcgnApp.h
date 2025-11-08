@@ -15,9 +15,11 @@
 //////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <iostream>
 #include <visage_app/application_window.h>
 #include <visage_file_embed/embedded_file.h>
 #include <visage_widgets/button.h>
+#include <visage_widgets/text_editor.h>
 #include <visage_utils/dimension.h>
 #include <visage_ui/popup_menu.h>
 #include <embedded/fonts.h>
@@ -35,6 +37,7 @@ class RcgnApp : public visage::ApplicationWindow
     DbManager dbm;
 
     void newQuiz();
+    void newQuiz(int lesson);
     void loadAlts();
     void markQuiz();
     void compare();
@@ -47,6 +50,9 @@ class RcgnApp : public visage::ApplicationWindow
     visage::Frame header, colHead, body;
     visage::UiButton helpBtn{"?"}, newBtn{"New"}, markBtn{"Mark"}, cmpBtn{"Compare"},
         optionsBtn{"Options"};
+    Label lessonLabel;
+    visage::TextEditor lesson;
+    int currentLesson{10}; // default max
     Label formCol, headCol, parseCol;
     QuizItem q1, q2, q3, q4, q5, q6, q7, q8;
     std::array<QuizItem *, 8> items;

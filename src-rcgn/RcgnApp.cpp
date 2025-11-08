@@ -40,20 +40,46 @@ RcgnApp::RcgnApp() : dbm(":memory:")
     header.layout().setPadding(8_vh);
     // header.outline = false;
 
-    header.addChild(helpBtn, true);
+    header.addChild(lessonLabel, true);
+    header.addChild(lesson, true);
     header.addChild(newBtn, true);
     header.addChild(markBtn, true);
     header.addChild(cmpBtn, true);
     header.addChild(optionsBtn, true);
+    header.addChild(helpBtn, true);
 
-    newBtn.layout().setDimensions(15_vw, 100_vh);
-    markBtn.layout().setDimensions(15_vw, 100_vh);
-    cmpBtn.layout().setDimensions(15_vw, 100_vh);
+    lessonLabel.layout().setDimensions(6_vw, 100_vh);
+    lesson.layout().setDimensions(5_vw, 100_vh);
+    newBtn.layout().setDimensions(11_vw, 100_vh);
+    markBtn.layout().setDimensions(11_vw, 100_vh);
+    cmpBtn.layout().setDimensions(11_vw, 100_vh);
     helpBtn.layout().setDimensions(5_vw, 100_vh);
-    optionsBtn.layout().setDimensions(15_vw, 100_vh);
+    optionsBtn.layout().setDimensions(12_vw, 100_vh);
+
+    lessonLabel.setText("Part #");
+    lessonLabel.setFont(font.withSize(17.f));
+    lessonLabel.outline = false;
+    lessonLabel.centered = false;
+
+    lesson.setFont(font.withSize(25.f));
+    lesson.onEnterKey() = [this]() {
+        auto num = lesson.text().toInt();
+        newQuiz(num);
+    };
+    lesson.setText("1");
 
     newBtn.setFont(font.withSize(25.f));
-    newBtn.onMouseDown() = [&](const visage::MouseEvent &e) { newQuiz(); };
+    newBtn.onMouseDown() = [&](const visage::MouseEvent &e) {
+        if (lesson.text().isEmpty())
+        {
+            newQuiz();
+        }
+        else
+        {
+            int l = lesson.text().toInt();
+            newQuiz(l);
+        }
+    };
 
     markBtn.setFont(font.withSize(25.f));
     markBtn.onMouseDown() = [&](const visage::MouseEvent &e) { markQuiz(); };
@@ -74,17 +100,17 @@ RcgnApp::RcgnApp() : dbm(":memory:")
         // clang-format on
     };
 
-    optStrs[1][true] = "(Simple) Past        ✅";
-    optStrs[1][false] = "(Simple) Past         ";
+    optStrs[1][true] = "✅ (Simple) Past";
+    optStrs[1][false] = "  (Simple) Past";
     optBools[1] = true;
-    optStrs[2][true] = "Future/Conditional        ✅";
-    optStrs[2][false] = "Future/Conditional         ";
+    optStrs[2][true] = "✅ Future/Conditional";
+    optStrs[2][false] = "  Future/Conditional";
     optBools[2] = false;
-    optStrs[3][true] = "Pres. Subjunctive        ✅";
-    optStrs[3][false] = "Pres. Subjunctive         ";
+    optStrs[3][true] = "✅ Pres. Subjunctive";
+    optStrs[3][false] = "  Pres. Subjunctive";
     optBools[3] = false;
-    optStrs[4][true] = "Impf. Subjunctive        ✅";
-    optStrs[4][false] = "Impf. Subjunctive         ";
+    optStrs[4][true] = "✅ Impf. Subjunctive";
+    optStrs[4][false] = "  Impf. Subjunctive";
     optBools[4] = false;
     optionsBtn.setFont(font.withSize(25.f));
     optionsBtn.setActionButton();
@@ -167,7 +193,7 @@ void RcgnApp::newQuiz()
 {
     auto st = dbm.getStmt("select head, form, parse from recogs where (parse not like ?) and "
                           "(parse not like ? and parse not like ?) and (parse not like ?) and "
-                          "(parse not like ?) order "
+                          "(parse not like ?) and (lesson <= ?) order "
                           "by random() limit 8;");
     if (!optBools[1])
         st.bind(1, "%past%");
@@ -192,6 +218,8 @@ void RcgnApp::newQuiz()
     else
         st.bind(5, "zz");
 
+    st.bind(6, currentLesson);
+
     std::array<std::string, 8> heads, forms, parses;
     size_t idx{0};
     while (st.executeStep())
@@ -202,11 +230,18 @@ void RcgnApp::newQuiz()
         forms[idx] = st.getColumn("form").getString();
         parses[idx] = st.getColumn("parse").getString();
         items[idx]->form.setText(forms[idx]);
+        items[idx]->dbForm = forms[idx];
         items[idx]->dbHead = heads[idx];
         items[idx]->dbParse = parses[idx];
-        items[idx]->dbEntries.push_back({forms[idx], heads[idx], parses[idx]});
+        dbEntry main;
+        main.form = forms[idx];
+        main.head = heads[idx];
+        main.parse = parses[idx];
+        items[idx]->dbEntries.push_back(main);
         ++idx;
     }
+
+    loadAlts();
 
     userInputIsShown = true;
     quizIsMarked = false;
@@ -214,22 +249,27 @@ void RcgnApp::newQuiz()
     redraw();
 }
 
+void RcgnApp::newQuiz(int lesson)
+{
+    std::cout << "part #: " << lesson << std::endl;
+    currentLesson = (lesson > 0) ? lesson : 1;
+    newQuiz();
+}
+
 void RcgnApp::loadAlts()
 {
     size_t idx{0};
-    for (auto &r : items)
+    for (auto r : items)
     {
-        auto st = dbm.getStmt(
-            "select form, head, parse from recogs where form = ? and (parse != ? or head != ?)");
-        st.bind(1, r->form.text_.toUtf8());
-        st.bind(2, r->dbParse);
-        st.bind(3, r->dbHead);
+        auto st = dbm.getStmt("select form, head, parse from recogs where form = ?");
+        st.bind(1, r->dbForm);
         while (st.executeStep())
         {
-            auto f = st.getColumn("form").getString();
-            auto h = st.getColumn("head").getString();
-            auto p = st.getColumn("parse").getString();
-            r->dbEntries.push_back({f, h, p});
+            dbEntry alt;
+            alt.form = st.getColumn("form").getString();
+            alt.head = st.getColumn("head").getString();
+            alt.parse = st.getColumn("parse").getString();
+            r->dbEntries.push_back(alt);
         }
     }
 }

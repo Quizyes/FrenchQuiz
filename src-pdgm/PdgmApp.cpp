@@ -35,18 +35,42 @@ PdgmApp::PdgmApp() : dbm(":memory:")
     header.layout().setFlexGap(1_vw);
     header.layout().setPadding(8_vh);
 
+    header.addChild(lessonLabel, true);
+    header.addChild(lesson, true);
     header.addChild(newBtn, true);
     header.addChild(markBtn, true);
     header.addChild(headword, true);
     header.addChild(cmpBtn, true);
+    header.addChild(optionsBtn, true);
+    header.addChild(quizUnderway, false);
 
-    newBtn.layout().setDimensions(15_vw, 100_vh);
-    markBtn.layout().setDimensions(15_vw, 100_vh);
-    headword.layout().setDimensions(35_vw, 100_vh);
-    cmpBtn.layout().setDimensions(15_vw, 100_vh);
+    lessonLabel.layout().setDimensions(6_vw, 100_vh);
+    lesson.layout().setDimensions(5_vw, 100_vh);
+    newBtn.layout().setDimensions(10_vw, 100_vh);
+    markBtn.layout().setDimensions(10_vw, 100_vh);
+    headword.layout().setDimensions(16_vw, 100_vh);
+    cmpBtn.layout().setDimensions(11_vw, 100_vh);
+    optionsBtn.layout().setDimensions(11_vw, 100_vh);
+
+    lessonLabel.setText("Part #");
+    lessonLabel.setFont(font.withSize(17.f));
+    lessonLabel.outline = false;
+    lessonLabel.centered = false;
+
+    lesson.setFont(font.withSize(25.f));
+    lesson.onEnterKey() = [this]() {
+        auto num = lesson.text().toInt();
+        newQuiz(num);
+    };
+    lesson.setText("1");
 
     newBtn.setFont(font.withSize(25.f));
-    newBtn.onMouseDown() = [&](const visage::MouseEvent &e) { newQuiz(); };
+    newBtn.onMouseDown() = [&](const visage::MouseEvent &e) {
+        if (lesson.text().isEmpty())
+            newQuiz();
+        else
+            newQuiz(lesson.text().toInt());
+    };
 
     markBtn.setFont(font.withSize(25.f));
     markBtn.onMouseDown() = [&](const visage::MouseEvent &e) { markQuiz(); };
@@ -63,8 +87,21 @@ PdgmApp::PdgmApp() : dbm(":memory:")
     headword.setFont(font.withSize(25.f));
     headword.onEnterKey() = [this]() {
         auto head = headword.text().toUtf8();
+        lesson.clear();
         newQuiz(head);
     };
+
+    lesson.setFont(font.withSize(25.f));
+    lesson.onEnterKey() = [this]() {
+        auto num = lesson.text().toInt();
+        newQuiz(num);
+    };
+
+    quizUnderway.setText("quiz underway");
+    quizUnderway.layout().setDimensions(16_vw, 100_vh);
+    quizUnderway.setFont(font.withSize(25.f));
+    quizUnderway.outline = true;
+
     // ============================
 
     body.setFlexLayout(true);
@@ -133,7 +170,48 @@ PdgmApp::PdgmApp() : dbm(":memory:")
 
     cs = {&cPres, &cImpf, &cPs, &cImper, &cFut, &cCond, &cSubjPres, &cSubjImpf};
 
-    quizUnderway.setText("quiz underway");
+    optStrs[1][true] = "✅ (Simple) Past";
+    optStrs[1][false] = "  (Simple) Past";
+    optBools[1] = true;
+    optStrs[2][true] = "✅ Future/Conditional";
+    optStrs[2][false] = "  Future/Conditional";
+    optBools[2] = false;
+    optStrs[3][true] = "✅ Pres. Subjunctive";
+    optStrs[3][false] = "  Pres. Subjunctive";
+    optBools[3] = false;
+    optStrs[4][true] = "✅ Impf. Subjunctive";
+    optStrs[4][false] = "  Impf. Subjunctive";
+    optBools[4] = false;
+    optionsBtn.setFont(font.withSize(25.f));
+    optionsBtn.setActionButton();
+    optionsBtn.onToggle() = [this](visage::Button *button, bool checked) {
+        visage::PopupMenu pp;
+        for (int i = 1; i < 5; ++i)
+        {
+            pp.addOption(i, optStrs[i][optBools[i]]);
+        }
+        pp.onSelection() = [&](int id) {
+            switch (id)
+            {
+            case 1:
+                optBools[1] = !optBools[1];
+                break;
+            case 2:
+                optBools[2] = !optBools[2];
+                break;
+            case 3:
+                optBools[3] = !optBools[3];
+                break;
+            case 4:
+                optBools[4] = !optBools[4];
+                break;
+            default:
+                break;
+            }
+        };
+        pp.show(&optionsBtn);
+    };
+    optionsBtn.setToggleOnMouseDown(true);
 }
 
 void PdgmApp::draw(visage::Canvas &canvas)
@@ -150,6 +228,8 @@ void PdgmApp::newQuiz()
 
 void PdgmApp::newQuiz(std::string &inverb)
 {
+    quizUnderway.setVisible(true);
+
     auto st = getQuery(inverb);
 
     std::string verb, pres, impf, imperat, pastPart, presPart, aux, fut, cond, ps, subjPres,
@@ -210,6 +290,12 @@ void PdgmApp::newQuiz(std::string &inverb)
     quizIsMarked = false;
     cmpBtn.setActive(false);
     redraw();
+}
+
+void PdgmApp::newQuiz(int lesson)
+{
+    currentLesson = (lesson > 0) ? lesson : 1;
+    newQuiz();
 }
 
 void PdgmApp::markQuiz()
@@ -305,8 +391,9 @@ SQLite::Statement PdgmApp::getQuery(std::string &inverb)
         }
     } // else
     auto st = dbm.getStmt("select inf, pres, impf, presPart, pastPart, "
-                          "aux, imperat, fut, cond, past, "
-                          "subjPres, subjImpf from paradigms order by random() limit 1;");
+                          "aux, imperat, fut, cond, past, subjPres, subjImpf "
+                          "from paradigms where lesson <= ? order by random() limit 1;");
+    st.bind(1, currentLesson);
     return st;
 }
 
@@ -328,19 +415,11 @@ std::string PdgmApp::replaceAccents(std::string input)
 
 std::string PdgmApp::replaceUnaccented(std::string verb)
 {
-    std::string results;
-    for (char ch : verb)
-    {
-        if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'u')
-        {
-            results.push_back('_');
-        }
-        else
-        {
-            results.push_back(ch);
-        }
-    }
-    return results;
+    Utils::replace(verb, "a", "_");
+    Utils::replace(verb, "e", "_");
+    Utils::replace(verb, "i", "_");
+    Utils::replace(verb, "u", "_");
+    return verb;
 }
 
 std::vector<std::string> PdgmApp::splitForms(std::string &str)

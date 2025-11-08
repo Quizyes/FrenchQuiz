@@ -4,12 +4,16 @@ body {
     color: bisque;
 }
 
+h1 {
+    font: 3em sans-serif;
+}
+
 div {
     font: 2em sans-serif;
 }
 
-a {
-    font: 3em sans-serif;
+div > a {
+    font: 1em sans-serif;
     color:bisque;
 }
 
@@ -28,4 +32,13 @@ div.fn {
 
 div#links {
     font: 1em sans-serif;
+}
+
+div.ch {
+    font: 2em sans-serif;
+}
+
+div.list {
+    font: 1em sans-serif;
+    text-indent: 1em;
 }

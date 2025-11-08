@@ -23,7 +23,8 @@ class Label : public visage::Frame
   public:
     Label() = default;
     visage::String text_;
-    bool outline{true};
+    bool outline{true}, left{true};
+    // visage::Font::Justification just{visage::Font::Justification::kLeft};
     std::vector<visage::String> tokens_;
     visage::Font fontEn{55, visage::fonts::Lato_Regular_ttf};
     visage::Color color_{visage::Color(0xff000000)};
@@ -73,8 +74,11 @@ class Label : public visage::Frame
         if (centered)
             canvas.text(text_, fontEn.withSize(25.f), visage::Font::Justification::kCenter, 0, 0,
                         width(), height());
-        else
+        else if (!left)
             canvas.text(text_, fontEn.withSize(25.f), visage::Font::Justification::kTop, 0, 0,
+                        width(), height());
+        else
+            canvas.text(text_, fontEn.withSize(25.f), visage::Font::Justification::kLeft, 0, 0,
                         width(), height());
     }
 };

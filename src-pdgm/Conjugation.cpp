@@ -112,10 +112,9 @@ Conjugation::Conjugation()
 
 void Conjugation::draw(visage::Canvas &canvas)
 {
-    if (name_.empty())
-        return;
-    else
-        canvas.text(name_, font, visage::Font::Justification::kCenter, 0, 0, 100_vw, 15_vh);
+    canvas.setColor(0xff000000);
+    canvas.text(name_, font.withSize(20.f), visage::Font::Justification::kCenter, 0, 0, 100_vw,
+                15_vh);
 }
 
 void Conjugation::clearAll()
@@ -170,7 +169,7 @@ void Conjugation::clearPronouns()
         blk(pns[i]);
     }
 }
-void Conjugation::red(Label *l)
+void Conjugation::red(oldLabel *l)
 {
     l->setColor(visage::theme::ColorId::defaultColor(WRONG));
     l->redraw();
@@ -180,7 +179,7 @@ void Conjugation::red(visage::TextEditor *e)
     e->setBackgroundColorId(WRONG);
     e->redraw();
 }
-void Conjugation::grn(Label *l)
+void Conjugation::grn(oldLabel *l)
 {
     l->setColor(visage::theme::ColorId::defaultColor(RIGHT));
     l->redraw();
@@ -190,7 +189,7 @@ void Conjugation::grn(visage::TextEditor *e)
     e->setBackgroundColorId(RIGHT);
     e->redraw();
 }
-void Conjugation::blk(Label *l)
+void Conjugation::blk(oldLabel *l)
 {
     l->setColor(0xff000000);
     l->redraw();

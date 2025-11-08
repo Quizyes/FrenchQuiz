@@ -19,10 +19,12 @@
 #include <iostream>
 #include <visage_app/application_window.h>
 #include <visage_file_embed/embedded_file.h>
+#include <visage_ui/popup_menu.h>
 #include <visage_widgets/button.h>
 #include "Conjugation.h"
 #include "ParadigmDbm.h"
 #include "Utils.h"
+#include "Label.h"
 
 namespace gwr::frqz
 {
@@ -34,6 +36,7 @@ class PdgmApp : public visage::ApplicationWindow
     void draw(visage::Canvas &canvas) override;
     void newQuiz();
     void newQuiz(std::string &inverb);
+    void newQuiz(int lesson);
     void markQuiz();
     void compare();
     SQLite::Statement getQuery(std::string &inverb);
@@ -43,12 +46,16 @@ class PdgmApp : public visage::ApplicationWindow
     visage::Frame header, body, left, right;
     Conjugation cPres, cImpf, cPs, cImper, cFut, cCond, cSubjPres, cSubjImpf;
     std::array<Conjugation *, 8> cs;
-    visage::UiButton newBtn{"New"}, markBtn{"Mark"}, cmpBtn{"Compare"};
-    visage::TextEditor headword;
+    visage::UiButton newBtn{"New"}, markBtn{"Mark"}, cmpBtn{"Compare"}, optionsBtn{"Options"};
+    visage::TextEditor headword, lesson;
+    Label lessonLabel;
+    int currentLesson{10};
     bool userInputIsShown{true}, quizIsMarked{false};
     visage::Font font{80, visage::fonts::Lato_Regular_ttf};
     ParadigmDbm dbm;
     Label quizUnderway;
+    std::map<int, std::map<bool, std::string>> optStrs;
+    std::map<int, bool> optBools;
 };
 
 } // namespace gwr::frqz

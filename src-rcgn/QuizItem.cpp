@@ -91,12 +91,18 @@ void QuizItem::check()
         if (replaceAccentedCharacters(userHead) == replaceAccentedCharacters(dbEntry.head))
             headC = true;
         if (compareParses(userParse, dbEntry.parse))
+        {
             parseC = true;
+            dbParse = dbEntry.parse;
+            idxOfCorrectParse = idx;
+        }
         if (parseC && headC)
         {
             idxOfCorrectParse = idx;
             dbHead = dbEntry.head;
             dbParse = dbEntry.parse;
+            parseIsCorrect = true;
+            headIsCorrect = true;
             return;
         }
         ++idx;
@@ -118,7 +124,9 @@ bool QuizItem::checkHead()
 bool QuizItem::checkParse()
 {
     size_t idx{0};
-    for (auto &entry : dbEntries)
+    if (parse.text().isEmpty())
+        return false;
+    for (auto entry : dbEntries)
     {
         if (compareParses(userParse, entry.parse))
         {
@@ -173,7 +181,7 @@ void QuizItem::color()
 void QuizItem::show()
 {
     size_t idx{0};
-    if (headIsCorrect && parseIsCorrect)
+    if (parseIsCorrect)
         idx = idxOfCorrectParse;
     dbHead = dbEntries[idx].head;
     dbParse = dbEntries[idx].parse;
@@ -241,8 +249,10 @@ std::set<std::string> QuizItem::split(std::string &str, char delimiter)
 
 bool QuizItem::compareParses(std::string &user, std::string &db)
 {
-    auto userParts = split(userParse);
-    auto dbParts = split(dbParse);
+    if (user.empty())
+        return false;
+    auto userParts = split(user);
+    auto dbParts = split(db);
     size_t matches{0};
     for (auto &part : dbParts)
     {
@@ -250,7 +260,9 @@ bool QuizItem::compareParses(std::string &user, std::string &db)
             ++matches;
     }
     if (matches == dbParts.size())
+    {
         return true;
+    }
     return false;
 }
 

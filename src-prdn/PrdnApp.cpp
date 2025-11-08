@@ -35,20 +35,41 @@ PrdnApp::PrdnApp() : dbm(":memory:")
     header.layout().setPadding(8_vh);
     // header.outline = false;
 
-    header.addChild(helpBtn, true);
+    header.addChild(lessonLabel);
+    header.addChild(lesson);
     header.addChild(newBtn, true);
     header.addChild(markBtn, true);
     header.addChild(cmpBtn, true);
     header.addChild(optionsBtn, true);
+    header.addChild(helpBtn, true);
 
-    newBtn.layout().setDimensions(15_vw, 100_vh);
-    markBtn.layout().setDimensions(15_vw, 100_vh);
-    cmpBtn.layout().setDimensions(15_vw, 100_vh);
+    lessonLabel.layout().setDimensions(6_vw, 100_vh);
+    lesson.layout().setDimensions(5_vw, 100_vh);
+    newBtn.layout().setDimensions(11_vw, 100_vh);
+    markBtn.layout().setDimensions(11_vw, 100_vh);
+    cmpBtn.layout().setDimensions(11_vw, 100_vh);
+    optionsBtn.layout().setDimensions(12_vw, 100_vh);
     helpBtn.layout().setDimensions(5_vw, 100_vh);
-    optionsBtn.layout().setDimensions(15_vw, 100_vh);
+
+    lessonLabel.setText("Part #");
+    lessonLabel.setFont(font.withSize(17.f));
+    lessonLabel.outline = false;
+    lessonLabel.centered = false;
+
+    lesson.setFont(font.withSize(25.f));
+    lesson.onEnterKey() = [this]() {
+        auto num = lesson.text().toInt();
+        newQuiz(num);
+    };
+    lesson.setText("1");
 
     newBtn.setFont(font.withSize(25.f));
-    newBtn.onMouseDown() = [&](const visage::MouseEvent &e) { newQuiz(); };
+    newBtn.onMouseDown() = [&](const visage::MouseEvent &e) {
+        if (lesson.text().isEmpty())
+            newQuiz();
+        else
+            newQuiz(lesson.text().toInt());
+    };
 
     markBtn.setFont(font.withSize(25.f));
     markBtn.onMouseDown() = [&](const visage::MouseEvent &e) { markQuiz(); };
@@ -69,17 +90,17 @@ PrdnApp::PrdnApp() : dbm(":memory:")
         // clang-format on
     };
 
-    optStrs[1][true] = "(Simple) Past        ✅";
-    optStrs[1][false] = "(Simple) Past         ";
+    optStrs[1][true] = "✅ (Simple) Past";
+    optStrs[1][false] = "  (Simple) Past";
     optBools[1] = true;
-    optStrs[2][true] = "Future/Conditional        ✅";
-    optStrs[2][false] = "Future/Conditional         ";
+    optStrs[2][true] = "✅ Future/Conditional";
+    optStrs[2][false] = "  Future/Conditional";
     optBools[2] = false;
-    optStrs[3][true] = "Pres. Subjunctive        ✅";
-    optStrs[3][false] = "Pres. Subjunctive         ";
+    optStrs[3][true] = "✅ Pres. Subjunctive";
+    optStrs[3][false] = "  Pres. Subjunctive";
     optBools[3] = false;
-    optStrs[4][true] = "Impf. Subjunctive        ✅";
-    optStrs[4][false] = "Impf. Subjunctive         ";
+    optStrs[4][true] = "✅ Impf. Subjunctive";
+    optStrs[4][false] = "  Impf. Subjunctive";
     optBools[4] = false;
     optionsBtn.setFont(font.withSize(25.f));
     optionsBtn.setActionButton();
@@ -162,7 +183,7 @@ void PrdnApp::newQuiz()
 {
     auto st = dbm.getStmt("select head, form, parse from recogs where (parse not like ?) and "
                           "(parse not like ? and parse not like ?) and (parse not like ?) and "
-                          "(parse not like ?) and (parse != 'inf') "
+                          "(parse not like ?) and (parse != 'inf') and (lesson <= ?) "
                           "order by random() limit 8;");
     if (!optBools[1])
         st.bind(1, "%past%");
@@ -187,6 +208,8 @@ void PrdnApp::newQuiz()
     else
         st.bind(5, "zz");
 
+    st.bind(6, currentLesson);
+
     std::array<std::string, 8> heads, forms, parses;
     size_t idx{0};
     while (st.executeStep())
@@ -206,6 +229,8 @@ void PrdnApp::newQuiz()
     cmpBtn.setActive(false);
     redraw();
 }
+
+void PrdnApp::newQuiz(int lesson) {}
 
 void PrdnApp::markQuiz()
 {

@@ -18,10 +18,10 @@
 #include <visage/app.h>
 #include <embedded/fonts.h>
 
-class Label : public visage::Frame
+class oldLabel : public visage::Frame
 {
   public:
-    Label() = default;
+    oldLabel() = default;
     visage::String text_;
     bool outline{true};
     std::vector<visage::String> tokens_;

@@ -100,17 +100,17 @@ RcgnApp::RcgnApp() : dbm(":memory:")
         // clang-format on
     };
 
-    optStrs[1][true] = "(Simple) Past        ✅";
-    optStrs[1][false] = "(Simple) Past         ";
+    optStrs[1][true] = "✅ (Simple) Past";
+    optStrs[1][false] = "  (Simple) Past";
     optBools[1] = true;
-    optStrs[2][true] = "Future/Conditional        ✅";
-    optStrs[2][false] = "Future/Conditional         ";
+    optStrs[2][true] = "✅ Future/Conditional";
+    optStrs[2][false] = "  Future/Conditional";
     optBools[2] = false;
-    optStrs[3][true] = "Pres. Subjunctive        ✅";
-    optStrs[3][false] = "Pres. Subjunctive         ";
+    optStrs[3][true] = "✅ Pres. Subjunctive";
+    optStrs[3][false] = "  Pres. Subjunctive";
     optBools[3] = false;
-    optStrs[4][true] = "Impf. Subjunctive        ✅";
-    optStrs[4][false] = "Impf. Subjunctive         ";
+    optStrs[4][true] = "✅ Impf. Subjunctive";
+    optStrs[4][false] = "  Impf. Subjunctive";
     optBools[4] = false;
     optionsBtn.setFont(font.withSize(25.f));
     optionsBtn.setActionButton();
@@ -269,11 +269,6 @@ void RcgnApp::loadAlts()
             alt.form = st.getColumn("form").getString();
             alt.head = st.getColumn("head").getString();
             alt.parse = st.getColumn("parse").getString();
-            // std::cout << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" << std::endl;
-            // std::cout << "form: " << alt.form << std::endl;
-            // std::cout << "head: " << alt.head << std::endl;
-            // std::cout << "parse: " << alt.parse << std::endl;
-            // std::cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << std::endl;
             r->dbEntries.push_back(alt);
         }
     }

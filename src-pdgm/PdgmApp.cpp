@@ -35,18 +35,34 @@ PdgmApp::PdgmApp() : dbm(":memory:")
     header.layout().setFlexGap(1_vw);
     header.layout().setPadding(8_vh);
 
+    header.addChild(lessonLabel, true);
+    header.addChild(lesson, true);
     header.addChild(newBtn, true);
     header.addChild(markBtn, true);
     header.addChild(headword, true);
-    header.addChild(lesson, true);
     header.addChild(cmpBtn, true);
+    header.addChild(optionsBtn, true);
     header.addChild(quizUnderway, false);
 
+    lessonLabel.layout().setDimensions(6_vw, 100_vh);
+    lesson.layout().setDimensions(5_vw, 100_vh);
     newBtn.layout().setDimensions(10_vw, 100_vh);
     markBtn.layout().setDimensions(10_vw, 100_vh);
-    headword.layout().setDimensions(20_vw, 100_vh);
-    lesson.layout().setDimensions(5_vw, 100_vh);
-    cmpBtn.layout().setDimensions(15_vw, 100_vh);
+    headword.layout().setDimensions(16_vw, 100_vh);
+    cmpBtn.layout().setDimensions(11_vw, 100_vh);
+    optionsBtn.layout().setDimensions(11_vw, 100_vh);
+
+    lessonLabel.setText("Part #");
+    lessonLabel.setFont(font.withSize(17.f));
+    lessonLabel.outline = false;
+    lessonLabel.centered = false;
+
+    lesson.setFont(font.withSize(25.f));
+    lesson.onEnterKey() = [this]() {
+        auto num = lesson.text().toInt();
+        newQuiz(num);
+    };
+    lesson.setText("1");
 
     newBtn.setFont(font.withSize(25.f));
     newBtn.onMouseDown() = [&](const visage::MouseEvent &e) {
@@ -80,6 +96,11 @@ PdgmApp::PdgmApp() : dbm(":memory:")
         auto num = lesson.text().toInt();
         newQuiz(num);
     };
+
+    quizUnderway.setText("quiz underway");
+    quizUnderway.layout().setDimensions(16_vw, 100_vh);
+    quizUnderway.setFont(font.withSize(25.f));
+    quizUnderway.outline = true;
 
     // ============================
 
@@ -149,10 +170,48 @@ PdgmApp::PdgmApp() : dbm(":memory:")
 
     cs = {&cPres, &cImpf, &cPs, &cImper, &cFut, &cCond, &cSubjPres, &cSubjImpf};
 
-    quizUnderway.setText("quiz underway");
-    quizUnderway.layout().setDimensions(25_vw, 100_vh);
-    quizUnderway.setFont(font.withSize(25.f));
-    quizUnderway.outline = true;
+    optStrs[1][true] = "✅ (Simple) Past";
+    optStrs[1][false] = "  (Simple) Past";
+    optBools[1] = true;
+    optStrs[2][true] = "✅ Future/Conditional";
+    optStrs[2][false] = "  Future/Conditional";
+    optBools[2] = false;
+    optStrs[3][true] = "✅ Pres. Subjunctive";
+    optStrs[3][false] = "  Pres. Subjunctive";
+    optBools[3] = false;
+    optStrs[4][true] = "✅ Impf. Subjunctive";
+    optStrs[4][false] = "  Impf. Subjunctive";
+    optBools[4] = false;
+    optionsBtn.setFont(font.withSize(25.f));
+    optionsBtn.setActionButton();
+    optionsBtn.onToggle() = [this](visage::Button *button, bool checked) {
+        visage::PopupMenu pp;
+        for (int i = 1; i < 5; ++i)
+        {
+            pp.addOption(i, optStrs[i][optBools[i]]);
+        }
+        pp.onSelection() = [&](int id) {
+            switch (id)
+            {
+            case 1:
+                optBools[1] = !optBools[1];
+                break;
+            case 2:
+                optBools[2] = !optBools[2];
+                break;
+            case 3:
+                optBools[3] = !optBools[3];
+                break;
+            case 4:
+                optBools[4] = !optBools[4];
+                break;
+            default:
+                break;
+            }
+        };
+        pp.show(&optionsBtn);
+    };
+    optionsBtn.setToggleOnMouseDown(true);
 }
 
 void PdgmApp::draw(visage::Canvas &canvas)

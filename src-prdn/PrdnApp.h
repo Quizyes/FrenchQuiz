@@ -36,6 +36,7 @@ class PrdnApp : public visage::ApplicationWindow
     PrdnApp();
     DbManager dbm;
     void newQuiz();
+    void newQuiz(int lesson);
     void markQuiz();
     void compare();
     void draw(visage::Canvas &canvas) override;
@@ -45,6 +46,9 @@ class PrdnApp : public visage::ApplicationWindow
 
     visage::Font font{55, visage::fonts::Lato_Regular_ttf};
     visage::Frame header, colHead, body;
+    Label lessonLabel;
+    visage::TextEditor lesson;
+    int currentLesson{10}; // default max
     visage::UiButton helpBtn{"?"}, newBtn{"New"}, markBtn{"Mark"}, cmpBtn{"Compare"},
         optionsBtn{"Options"};
     Label formCol, headCol, parseCol;

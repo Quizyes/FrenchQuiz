@@ -22,6 +22,7 @@
 #include "Label.h"
 #include "Utils.h"
 #include <set>
+#include <iostream>
 
 namespace gwr::frqz
 {
@@ -60,7 +61,7 @@ class QuizItem : public visage::Frame
     visage::Font font{25, visage::fonts::Lato_Regular_ttf};
     Label form;
     visage::TextEditor head, parse;
-    std::string userHead, userParse, dbHead, dbParse;
+    std::string userHead, userParse, dbHead, dbParse, dbForm;
     bool headIsCorrect{false}, parseIsCorrect{false};
     size_t idxOfCorrectParse{0};
     std::vector<dbEntry> dbEntries; // fill with alts from RcgnApp on newQuiz()

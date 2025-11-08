@@ -202,11 +202,18 @@ void RcgnApp::newQuiz()
         forms[idx] = st.getColumn("form").getString();
         parses[idx] = st.getColumn("parse").getString();
         items[idx]->form.setText(forms[idx]);
+        items[idx]->dbForm = forms[idx];
         items[idx]->dbHead = heads[idx];
         items[idx]->dbParse = parses[idx];
-        items[idx]->dbEntries.push_back({forms[idx], heads[idx], parses[idx]});
+        dbEntry main;
+        main.form = forms[idx];
+        main.head = heads[idx];
+        main.parse = parses[idx];
+        items[idx]->dbEntries.push_back(main);
         ++idx;
     }
+
+    loadAlts();
 
     userInputIsShown = true;
     quizIsMarked = false;
@@ -217,19 +224,22 @@ void RcgnApp::newQuiz()
 void RcgnApp::loadAlts()
 {
     size_t idx{0};
-    for (auto &r : items)
+    for (auto r : items)
     {
-        auto st = dbm.getStmt(
-            "select form, head, parse from recogs where form = ? and (parse != ? or head != ?)");
-        st.bind(1, r->form.text_.toUtf8());
-        st.bind(2, r->dbParse);
-        st.bind(3, r->dbHead);
+        auto st = dbm.getStmt("select form, head, parse from recogs where form = ?");
+        st.bind(1, r->dbForm);
         while (st.executeStep())
         {
-            auto f = st.getColumn("form").getString();
-            auto h = st.getColumn("head").getString();
-            auto p = st.getColumn("parse").getString();
-            r->dbEntries.push_back({f, h, p});
+            dbEntry alt;
+            alt.form = st.getColumn("form").getString();
+            alt.head = st.getColumn("head").getString();
+            alt.parse = st.getColumn("parse").getString();
+            // std::cout << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" << std::endl;
+            // std::cout << "form: " << alt.form << std::endl;
+            // std::cout << "head: " << alt.head << std::endl;
+            // std::cout << "parse: " << alt.parse << std::endl;
+            // std::cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << std::endl;
+            r->dbEntries.push_back(alt);
         }
     }
 }

@@ -11,3 +11,5 @@
 
 
 -- missing entry (in conjugations.json) for concevoir
+
+-- alt forms not working in recognitions

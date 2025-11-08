@@ -15,6 +15,7 @@
 //////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <iostream>
 #include <visage_app/application_window.h>
 #include <visage_file_embed/embedded_file.h>
 #include <visage_widgets/button.h>

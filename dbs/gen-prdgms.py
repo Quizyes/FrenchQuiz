@@ -31,7 +31,8 @@ cur.execute("create table if not exists paradigms(verbID INTEGER PRIMARY KEY AUT
             "cond TEXT, "
             "subjPres TEXT, "
             "subjImpf TEXT, "
-            "imperat TEXT "
+            "imperat TEXT, "
+            "lesson INTEGER DEFAULT 10"
             ");");
 
 

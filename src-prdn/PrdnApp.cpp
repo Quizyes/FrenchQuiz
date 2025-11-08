@@ -230,7 +230,11 @@ void PrdnApp::newQuiz()
     redraw();
 }
 
-void PrdnApp::newQuiz(int lesson) {}
+void PrdnApp::newQuiz(int lesson)
+{
+    currentLesson = (lesson > 0) ? lesson : 1;
+    newQuiz();
+}
 
 void PrdnApp::markQuiz()
 {

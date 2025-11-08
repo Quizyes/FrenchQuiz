@@ -41,7 +41,7 @@ PdgmApp::PdgmApp() : dbm(":memory:")
     header.addChild(markBtn, true);
     header.addChild(headword, true);
     header.addChild(cmpBtn, true);
-    header.addChild(optionsBtn, true);
+    header.addChild(optionsBtn, false);
     header.addChild(quizUnderway, false);
 
     lessonLabel.layout().setDimensions(6_vw, 100_vh);

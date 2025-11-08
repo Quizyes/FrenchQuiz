@@ -6,6 +6,7 @@ connaître
 décrire
 écrire
 expliquer
+inventer
 mettre
 oublier
 paraître
@@ -17,4 +18,3 @@ remercier
 remettre
 songer
 soumettre
-inventer

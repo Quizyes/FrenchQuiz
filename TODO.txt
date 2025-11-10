@@ -6,13 +6,7 @@
 
 -- missing entry (in conjugations.json) for concevoir
 
--- option to require accents
-    -- needs way to enter them reliably?
-    -- try this: make ontextchange look for slashes, equals or ^, colons or + for ¨
-    -- and replace them with accented characters
-
-== OK ==
-
+===== ACCENTS ======
 -- did all that, now we need
 -- 1) help page with info about accents
 -- 2) option to require correct accents to be correct

@@ -1,15 +1,18 @@
--- 1) chapters
 -- 2) accents
--- 3) definitions
-
 
 -- add version number to ... something
 -- factor out string-splitters and coloring logic
--- option to require accents
-    -- needs way to enter them reliably?
 -- fonts / colors / look
-
 
 -- missing entry (in conjugations.json) for concevoir
 
--- alt forms not working in recognitions
+-- option to require accents
+    -- needs way to enter them reliably?
+    -- try this: make ontextchange look for slashes, equals or ^, colons or + for ¨
+    -- and replace them with accented characters
+
+== OK ==
+
+-- did all that, now we need
+-- 1) help page with info about accents
+-- 2) option to require correct accents to be correct

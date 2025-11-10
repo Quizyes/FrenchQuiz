@@ -1,0 +1,100 @@
+abréger|shorten, abbreviate
+accepter|accept
+accuser|accuse
+admirer|admire
+agir|act
+aider|help
+aimer|love
+ajouter|add
+aller|go
+apercevoir|notice
+apparaître|appear
+appartenir|belong
+apprendre|learn
+arrêter|stop
+attendre|wait
+attirer|draw, pull
+avoir|have, get
+chercher|look for, seek
+choisir|choose
+comprendre|understand
+confier|confide
+connaître|know
+convenir|suit
+croire|believe
+cultiver|cultivate
+décrire|describe, sketch
+devenir|become
+dire|say
+dispenser|
+diviser|divide
+donner|give
+dormir|sleep
+écouter|listen
+écrire|write
+endormir|put to sleep
+ennuyer|bore, annoy
+enseigner|teach
+entendre|hear, understand
+être|be
+étudier|study
+expliquer|explain
+faire|do, make
+finir|finish
+flatter|flatter
+ignorer|be unaware of
+inventer|invent
+jouer|play
+jouir|enjoy
+lire|read
+mentir|lie
+mériter|be worthy of
+mettre|put
+mourir|die
+oublier|forget
+paraître|appear
+parler|speak
+partir|leave
+passer|pass, surpass
+penser|think
+perdre|lose
+pleurer|cry
+porter|carry, wear
+pouvoir|be able
+préférer|prefer
+prendre|take
+prêter|lend
+promettre|promise
+publier|publish
+punir|punish
+quitter|leave
+raconter|recount
+réagir|react
+recevoir|receive
+reconnaître|recognize
+regarder|look at
+rejeter|reject
+remercier|thank
+remettre|put back
+remplir|fill
+rendre|give back, make
+rester|stay
+réussir|succeed
+rougir|blush
+savoir|know
+sentir|feel
+servir|serve
+situer|locate
+songer|think about, daydream
+sortir|go out
+soumettre|submit
+souvenir|recall
+tenir|hold, take
+travailler|work
+trouver|find
+veiller|be awake, keep watch
+vendre|sell
+venir|come
+voir|see
+vouloir|want
+voyager|travel

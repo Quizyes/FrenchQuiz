@@ -39,7 +39,11 @@ PdgmApp::PdgmApp() : dbm(":memory:")
     header.addChild(lesson, true);
     header.addChild(newBtn, true);
     header.addChild(markBtn, true);
-    header.addChild(headword, true);
+    header.addChild(defnframe);
+    defnframe.setFlexLayout(true);
+    defnframe.layout().setFlexRows(true);
+    defnframe.addChild(headword, true);
+    defnframe.addChild(definition);
     header.addChild(cmpBtn, true);
     header.addChild(optionsBtn, false);
     header.addChild(quizUnderway, false);
@@ -48,7 +52,11 @@ PdgmApp::PdgmApp() : dbm(":memory:")
     lesson.layout().setDimensions(5_vw, 100_vh);
     newBtn.layout().setDimensions(10_vw, 100_vh);
     markBtn.layout().setDimensions(10_vw, 100_vh);
-    headword.layout().setDimensions(16_vw, 100_vh);
+    defnframe.layout().setDimensions(19_vw, 100_vh);
+
+    headword.layout().setDimensions(100_vw, 50_vh);
+    definition.layout().setDimensions(100_vw, 50_vh);
+
     cmpBtn.layout().setDimensions(11_vw, 100_vh);
     optionsBtn.layout().setDimensions(11_vw, 100_vh);
 
@@ -233,7 +241,7 @@ void PdgmApp::newQuiz(std::string &inverb)
     auto st = getQuery(inverb);
 
     std::string verb, pres, impf, imperat, pastPart, presPart, aux, fut, cond, ps, subjPres,
-        subjImpf;
+        subjImpf, english;
     while (st.executeStep())
     {
         verb = st.getColumn("inf").getString();
@@ -248,8 +256,10 @@ void PdgmApp::newQuiz(std::string &inverb)
         ps = st.getColumn("past").getString();
         subjPres = st.getColumn("subjPres").getString();
         subjImpf = st.getColumn("subjImpf").getString();
+        english = st.getColumn("english").getString();
     }
     headword.setText(verb);
+    definition.setText(english);
 
     auto presForms = splitForms(pres);
     auto impfForms = splitForms(impf);
@@ -384,14 +394,14 @@ SQLite::Statement PdgmApp::getQuery(std::string &inverb)
         {
             std::cout << "form of verb: " << finalForm << std::endl;
             st = dbm.getStmt("select inf, pres, impf, presPart, pastPart, aux, "
-                             "imperat, fut, cond, past, "
+                             "imperat, fut, cond, past, english, "
                              "subjPres, subjImpf from paradigms where inf = ?;");
             st.bind(1, finalForm);
             return st;
         }
     } // else
     auto st = dbm.getStmt("select inf, pres, impf, presPart, pastPart, "
-                          "aux, imperat, fut, cond, past, subjPres, subjImpf "
+                          "aux, imperat, fut, cond, past, english, subjPres, subjImpf "
                           "from paradigms where lesson <= ? order by random() limit 1;");
     st.bind(1, currentLesson);
     return st;

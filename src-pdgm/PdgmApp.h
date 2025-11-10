@@ -43,12 +43,12 @@ class PdgmApp : public visage::ApplicationWindow
     std::string replaceAccents(std::string verb);
     std::string replaceUnaccented(std::string verb);
     std::vector<std::string> splitForms(std::string &entry);
-    visage::Frame header, body, left, right;
+    visage::Frame header, defnframe, body, left, right;
     Conjugation cPres, cImpf, cPs, cImper, cFut, cCond, cSubjPres, cSubjImpf;
     std::array<Conjugation *, 8> cs;
     visage::UiButton newBtn{"New"}, markBtn{"Mark"}, cmpBtn{"Compare"}, optionsBtn{"Options"};
     visage::TextEditor headword, lesson;
-    Label lessonLabel;
+    Label lessonLabel, definition;
     int currentLesson{10};
     bool userInputIsShown{true}, quizIsMarked{false};
     visage::Font font{80, visage::fonts::Lato_Regular_ttf};

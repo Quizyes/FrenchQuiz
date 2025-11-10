@@ -848,24 +848,24 @@ async function createWasm() {
 // === Body ===
 
 var ASM_CONSTS = {
-  52543452: () => { document.addEventListener( 'paste', function(event) { navigator.clipboard.readText() .then(function(text) { ccall('pasteCallback', null, ['string'], [text]); }) .catch(function(err) { console.error("Failed to access clipboard:", err); }); }); },  
- 52543699: ($0) => { var text = UTF8ToString($0); navigator.clipboard.writeText(text).then(function() {}).catch(function(err) { console.error("Failed to copy text: ", err); }); },  
- 52543859: ($0) => { document.body.style.cursor = UTF8ToString($0); },  
- 52543910: () => { return window.devicePixelRatio; },  
- 52543946: () => { var canvas = document.getElementById('canvas'); var rect = canvas.getBoundingClientRect(); return rect.left; },  
- 52544059: () => { var canvas = document.getElementById('canvas'); var rect = canvas.getBoundingClientRect(); return rect.top; },  
- 52544171: () => { if (navigator.userAgentData && navigator.userAgentData.mobile) return 1; return new RegExp("Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini", "i") .test(navigator.userAgent); },  
- 52544363: () => { return window.innerWidth; },  
- 52544393: () => { return window.innerHeight; },  
- 52544424: () => { return window.innerWidth; },  
- 52544454: () => { return window.innerHeight; },  
- 52544485: () => { return screen.width; },  
- 52544510: () => { return screen.height; },  
- 52544536: () => { var canvas = document.getElementById('canvas'); var rect = canvas.getBoundingClientRect(); return rect.left; },  
- 52544649: () => { var canvas = document.getElementById('canvas'); var rect = canvas.getBoundingClientRect(); return rect.top; },  
- 52544761: () => { var canvas = document.getElementById('canvas'); var rect = canvas.getBoundingClientRect(); return rect.left; },  
- 52544874: () => { var canvas = document.getElementById('canvas'); var rect = canvas.getBoundingClientRect(); return rect.top; },  
- 52544986: () => { debugger; }
+  52547564: () => { document.addEventListener( 'paste', function(event) { navigator.clipboard.readText() .then(function(text) { ccall('pasteCallback', null, ['string'], [text]); }) .catch(function(err) { console.error("Failed to access clipboard:", err); }); }); },  
+ 52547811: ($0) => { var text = UTF8ToString($0); navigator.clipboard.writeText(text).then(function() {}).catch(function(err) { console.error("Failed to copy text: ", err); }); },  
+ 52547971: ($0) => { document.body.style.cursor = UTF8ToString($0); },  
+ 52548022: () => { return window.devicePixelRatio; },  
+ 52548058: () => { var canvas = document.getElementById('canvas'); var rect = canvas.getBoundingClientRect(); return rect.left; },  
+ 52548171: () => { var canvas = document.getElementById('canvas'); var rect = canvas.getBoundingClientRect(); return rect.top; },  
+ 52548283: () => { if (navigator.userAgentData && navigator.userAgentData.mobile) return 1; return new RegExp("Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini", "i") .test(navigator.userAgent); },  
+ 52548475: () => { return window.innerWidth; },  
+ 52548505: () => { return window.innerHeight; },  
+ 52548536: () => { return window.innerWidth; },  
+ 52548566: () => { return window.innerHeight; },  
+ 52548597: () => { return screen.width; },  
+ 52548622: () => { return screen.height; },  
+ 52548648: () => { var canvas = document.getElementById('canvas'); var rect = canvas.getBoundingClientRect(); return rect.left; },  
+ 52548761: () => { var canvas = document.getElementById('canvas'); var rect = canvas.getBoundingClientRect(); return rect.top; },  
+ 52548873: () => { var canvas = document.getElementById('canvas'); var rect = canvas.getBoundingClientRect(); return rect.left; },  
+ 52548986: () => { var canvas = document.getElementById('canvas'); var rect = canvas.getBoundingClientRect(); return rect.top; },  
+ 52549098: () => { debugger; }
 };
 
 // end include: preamble.js

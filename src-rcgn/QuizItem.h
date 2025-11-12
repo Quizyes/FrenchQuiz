@@ -45,7 +45,7 @@ class QuizItem : public visage::Frame
     bool checkParse();
     void color();
     void show();
-    void mark();
+    void mark(bool strict = false);
 
     void red(Label *l);
     void red(visage::TextEditor *e);
@@ -64,6 +64,7 @@ class QuizItem : public visage::Frame
     std::string userHead, userParse, dbHead, dbParse, dbForm;
     bool headIsCorrect{false}, parseIsCorrect{false};
     size_t idxOfCorrectParse{0};
+    bool strictAccentuation{false};
     std::vector<dbEntry> dbEntries; // fill with alts from RcgnApp on newQuiz()
 };
 

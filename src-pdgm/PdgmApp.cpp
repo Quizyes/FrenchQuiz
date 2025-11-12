@@ -45,7 +45,7 @@ PdgmApp::PdgmApp() : dbm(":memory:")
     defnframe.addChild(headword, true);
     defnframe.addChild(definition);
     header.addChild(cmpBtn, true);
-    header.addChild(optionsBtn, false);
+    header.addChild(optionsBtn, true);
     header.addChild(quizUnderway, false);
 
     lessonLabel.layout().setDimensions(6_vw, 100_vh);
@@ -178,45 +178,15 @@ PdgmApp::PdgmApp() : dbm(":memory:")
 
     cs = {&cPres, &cImpf, &cPs, &cImper, &cFut, &cCond, &cSubjPres, &cSubjImpf};
 
-    optStrs[1][true] = "✅ (Simple) Past";
-    optStrs[1][false] = "  (Simple) Past";
-    optBools[1] = true;
-    optStrs[2][true] = "✅ Future/Conditional";
-    optStrs[2][false] = "  Future/Conditional";
-    optBools[2] = false;
-    optStrs[3][true] = "✅ Pres. Subjunctive";
-    optStrs[3][false] = "  Pres. Subjunctive";
-    optBools[3] = false;
-    optStrs[4][true] = "✅ Impf. Subjunctive";
-    optStrs[4][false] = "  Impf. Subjunctive";
-    optBools[4] = false;
+    optStrs[1][true] = "✅ Strict Accentuation";
+    optStrs[1][false] = "  Strict Accentuation";
+    optBools[1] = false;
     optionsBtn.setFont(font.withSize(25.f));
     optionsBtn.setActionButton();
     optionsBtn.onToggle() = [this](visage::Button *button, bool checked) {
         visage::PopupMenu pp;
-        for (int i = 1; i < 5; ++i)
-        {
-            pp.addOption(i, optStrs[i][optBools[i]]);
-        }
-        pp.onSelection() = [&](int id) {
-            switch (id)
-            {
-            case 1:
-                optBools[1] = !optBools[1];
-                break;
-            case 2:
-                optBools[2] = !optBools[2];
-                break;
-            case 3:
-                optBools[3] = !optBools[3];
-                break;
-            case 4:
-                optBools[4] = !optBools[4];
-                break;
-            default:
-                break;
-            }
-        };
+        pp.addOption(1, optStrs[1][optBools[1]]);
+        pp.onSelection() = [&](int id) { optBools[1] = !optBools[1]; };
         pp.show(&optionsBtn);
     };
     optionsBtn.setToggleOnMouseDown(true);
@@ -240,8 +210,7 @@ void PdgmApp::newQuiz(std::string &inverb)
 
     auto st = getQuery(inverb);
 
-    std::string verb, pres, impf, imperat, pastPart, presPart, aux, fut, cond, ps, subjPres,
-        subjImpf, english;
+    std::string verb, pres, impf, imperat, pastPart, presPart, aux, fut, cond, ps, subjPres, subjImpf, english;
     while (st.executeStep())
     {
         verb = st.getColumn("inf").getString();
@@ -320,7 +289,12 @@ void PdgmApp::markQuiz()
         conj->readContents();
         for (size_t i = 0; i < 6; ++i)
         {
-            if (replaceAccents(conj->userForms[i]).compare(replaceAccents(conj->dbForms[i])) == 0)
+            bool matches;
+            if (optBools[1])
+                matches = (conj->userForms[i].compare(conj->dbForms[i]) == 0);
+            else
+                matches = (replaceAccents(conj->userForms[i]).compare(replaceAccents(conj->dbForms[i])) == 0);
+            if (matches)
                 conj->isCorrect[i] = true;
             else
                 conj->isCorrect[i] = false;

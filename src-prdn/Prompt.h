@@ -34,7 +34,7 @@ class Prompt : public visage::Frame
     void readEntries();
     void check();
     void color();
-    void mark();
+    void mark(bool strictAccents = true);
 
     void red(visage::TextEditor *e);
     void grn(visage::TextEditor *e);
@@ -47,7 +47,7 @@ class Prompt : public visage::Frame
     Label head, parse;
     visage::TextEditor form;
     std::string userForm, dbForm;
-    bool isCorrect;
+    bool isCorrect, strictAccentuation;
 };
 
 } // namespace gwr::frqz

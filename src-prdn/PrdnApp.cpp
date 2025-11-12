@@ -91,19 +91,19 @@ PrdnApp::PrdnApp() : dbm(":memory:")
     };
 
     optStrs[1][true] = "✅ (Simple) Past";
-    optStrs[1][false] = "  (Simple) Past";
+    optStrs[1][false] = "❌ (Simple) Past";
     optBools[1] = true;
     optStrs[2][true] = "✅ Future/Conditional";
-    optStrs[2][false] = "  Future/Conditional";
+    optStrs[2][false] = "❌ Future/Conditional";
     optBools[2] = false;
     optStrs[3][true] = "✅ Pres. Subjunctive";
-    optStrs[3][false] = "  Pres. Subjunctive";
+    optStrs[3][false] = "❌ Pres. Subjunctive";
     optBools[3] = false;
     optStrs[4][true] = "✅ Impf. Subjunctive";
-    optStrs[4][false] = "  Impf. Subjunctive";
+    optStrs[4][false] = "❌ Impf. Subjunctive";
     optBools[4] = false;
     optStrs[5][true] = "✅ Strict Accentuation";
-    optStrs[5][false] = "  Strict Accentuation";
+    optStrs[5][false] = "❌ Strict Accentuation";
     optBools[5] = false;
     optionsBtn.setFont(font.withSize(25.f));
     optionsBtn.setActionButton();

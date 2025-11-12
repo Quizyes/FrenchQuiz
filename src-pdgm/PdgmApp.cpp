@@ -179,7 +179,7 @@ PdgmApp::PdgmApp() : dbm(":memory:")
     cs = {&cPres, &cImpf, &cPs, &cImper, &cFut, &cCond, &cSubjPres, &cSubjImpf};
 
     optStrs[1][true] = "✅ Strict Accentuation";
-    optStrs[1][false] = "  Strict Accentuation";
+    optStrs[1][false] = "❌ Strict Accentuation";
     optBools[1] = false;
     optionsBtn.setFont(font.withSize(25.f));
     optionsBtn.setActionButton();

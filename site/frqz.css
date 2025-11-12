@@ -42,3 +42,14 @@ div.list {
     font: 1em sans-serif;
     text-indent: 1em;
 }
+
+table {
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2em;
+}
+
+td > span {
+    font: 2em sans-serif;
+}

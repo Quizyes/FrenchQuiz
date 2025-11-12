@@ -102,6 +102,9 @@ PrdnApp::PrdnApp() : dbm(":memory:")
     optStrs[4][true] = "✅ Impf. Subjunctive";
     optStrs[4][false] = "  Impf. Subjunctive";
     optBools[4] = false;
+    optStrs[5][true] = "✅ Strict Accentuation";
+    optStrs[5][false] = "  Strict Accentuation";
+    optBools[5] = false;
     optionsBtn.setFont(font.withSize(25.f));
     optionsBtn.setActionButton();
     optionsBtn.onToggle() = [this](visage::Button *button, bool checked) {
@@ -110,6 +113,8 @@ PrdnApp::PrdnApp() : dbm(":memory:")
         {
             pp.addOption(i, optStrs[i][optBools[i]]);
         }
+        pp.addBreak();
+        pp.addOption(5, optStrs[5][optBools[5]]);
         pp.onSelection() = [&](int id) {
             switch (id)
             {
@@ -124,6 +129,9 @@ PrdnApp::PrdnApp() : dbm(":memory:")
                 break;
             case 4:
                 optBools[4] = !optBools[4];
+                break;
+            case 5:
+                optBools[5] = !optBools[5];
                 break;
             default:
                 break;

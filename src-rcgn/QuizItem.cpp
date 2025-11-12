@@ -113,7 +113,16 @@ bool QuizItem::checkHead()
 {
     for (auto &entry : dbEntries)
     {
-        if (replaceAccentedCharacters(userHead) == replaceAccentedCharacters(entry.head))
+        bool matches{false};
+        if (strictAccentuation)
+        {
+            matches = (userHead.compare(entry.head) == 0);
+        }
+        else
+        {
+            matches = (replaceAccentedCharacters(userHead) == replaceAccentedCharacters(entry.head));
+        }
+        if (matches)
         {
             return true;
         }
@@ -188,8 +197,9 @@ void QuizItem::show()
     redraw();
 }
 
-void QuizItem::mark()
+void QuizItem::mark(bool strict)
 {
+    strictAccentuation = strict;
     readEntries();
     check();
     color();

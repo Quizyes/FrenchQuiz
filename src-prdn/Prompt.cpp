@@ -57,7 +57,16 @@ void Prompt::clear()
 void Prompt::readEntries() { userForm = form.text().toUtf8(); }
 void Prompt::check()
 {
-    if (replaceAccentedCharacters(userForm) == replaceAccentedCharacters(dbForm))
+    bool matches{false};
+    if (strictAccentuation)
+    {
+        matches = (userForm.compare(dbForm) == 0);
+    }
+    else
+    {
+        matches = replaceAccentedCharacters(userForm) == replaceAccentedCharacters(dbForm);
+    }
+    if (matches)
         isCorrect = true;
     else
         isCorrect = false;
@@ -71,8 +80,9 @@ void Prompt::color()
     else
         red(&form);
 }
-void Prompt::mark()
+void Prompt::mark(bool strict)
 {
+    strictAccentuation = strict;
     readEntries();
     check();
     color();

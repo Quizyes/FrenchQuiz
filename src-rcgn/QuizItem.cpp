@@ -41,6 +41,43 @@ QuizItem::QuizItem()
     head.setJustification(visage::Font::Justification::kCenter);
     head.layout().setDimensions(20_vw, 100_vh);
     head.setTextFieldEntry();
+    head.onTextChange() += [&]() {
+        auto str = head.text().toUtf8();
+        std::set<char> set{'/', '\\', '=', '^', ',', '+', ':'};
+        std::unordered_map<std::string, std::string> accs = {
+            {"a\\", "à"}, {"a=", "â"}, {"a^", "â"}, {"c,", "ç"}, {"e/", "é"}, {"e\\", "è"}, {"e=", "ê"}, {"e^", "ê"},
+            {"i=", "î"},  {"i^", "î"}, {"i:", "ï"}, {"i+", "ï"}, {"o=", "ô"}, {"o^", "ô"},  {"u+", "ü"}, {"u:", "ü"}};
+        std::string outstr;
+        char p{0}; // previous (to be modified by accent)
+        for (char c : str)
+        {
+            if (!set.contains(c))
+                outstr.append(1, c);
+            else
+            {
+                auto s = std::string{p}.append(1, c);
+                bool found = false;
+                for (const auto &[key, value] : accs)
+                {
+                    if (s.compare(key) == 0)
+                    {
+                        outstr.erase(outstr.length() - 1, 1);
+                        outstr.append(value);
+                        found = true;
+                    }
+                }
+                if (!found)
+                {
+                    outstr.append(1, c);
+                }
+            }
+            p = c;
+        }
+        if (outstr.compare(str) != 0)
+        {
+            head.setText(outstr);
+        }
+    };
 
     parse.setFont(font.withSize(20.f));
     parse.setDefaultText("...");

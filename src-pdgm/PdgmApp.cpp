@@ -72,6 +72,44 @@ PdgmApp::PdgmApp() : dbm(":memory:")
     };
     lesson.setText("1");
 
+    headword.onTextChange() += [&]() {
+        auto str = headword.text().toUtf8();
+        std::set<char> set{'/', '\\', '=', '^', ',', '+', ':'};
+        std::unordered_map<std::string, std::string> accs = {
+            {"a\\", "à"}, {"a=", "â"}, {"a^", "â"}, {"c,", "ç"}, {"e/", "é"}, {"e\\", "è"}, {"e=", "ê"}, {"e^", "ê"},
+            {"i=", "î"},  {"i^", "î"}, {"i:", "ï"}, {"i+", "ï"}, {"o=", "ô"}, {"o^", "ô"},  {"u+", "ü"}, {"u:", "ü"}};
+        std::string outstr;
+        char p{0}; // previous (to be modified by accent)
+        for (char c : str)
+        {
+            if (!set.contains(c))
+                outstr.append(1, c);
+            else
+            {
+                auto s = std::string{p}.append(1, c);
+                bool found = false;
+                for (const auto &[key, value] : accs)
+                {
+                    if (s.compare(key) == 0)
+                    {
+                        outstr.erase(outstr.length() - 1, 1);
+                        outstr.append(value);
+                        found = true;
+                    }
+                }
+                if (!found)
+                {
+                    outstr.append(1, c);
+                }
+            }
+            p = c;
+        }
+        if (outstr.compare(str) != 0)
+        {
+            headword.setText(outstr);
+        }
+    };
+
     newBtn.setFont(font.withSize(25.f));
     newBtn.onMouseDown() = [&](const visage::MouseEvent &e) {
         if (lesson.text().isEmpty())

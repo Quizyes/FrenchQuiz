@@ -1,0 +1,58 @@
+e^tre|be
+a\|to, at
+de|of, from
+dans|in
+avec|with
+sans|without
+et|and
+voici|here is, here are
+voila\|there is, there are
+qui|who, which
+pe\re|father
+me\re|mother
+fils|son
+fille|daughter
+ou\|where
+garc,on|boy
+enfant|child
+pays|country
+avoir|have
+deux|two
+trois|three
+quatre|four
+cinq|five
+petit|small
+grand|big
+combien|how many, how much
+quel|which, what
+ne...que|only
+sur|on, upon
+sous|under
+tre\s|very
+pour|for, in order to
+homme|man
+femme|woman
+ami|child
+vie|life
+argent|money
+ville|city
+souvent|often
+peu|little
+assez|enough
+beaucoup|a lot
+trop|too
+tant|so much, so many
+trouver|find
+parler|speak
+regarder|look at
+aimer|love
+travailler|work
+porter|carry
+donner|give
+e/couter|listen
+chercher|find
+mais|but
+parce que|because
+mot|word
+noir|black
+avant|before

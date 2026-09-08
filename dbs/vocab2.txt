@@ -1,0 +1,63 @@
+agir|act
+re/ussir|succeed
+rougir|blush
+choisir|choose
+remplir|fill
+bien|well
+mal|badly
+bon|good
+mauvais|bad
+sentir|feel
+mentir|lie
+sortir|go out
+partir|leave
+dormir|sleep
+quand|when
+maintenant|now
+ne...pas du tout|not at all
+e/le\ve|pupil, student
+e/cole|school
+heureux|happy
+vieux|old
+ce|this
+actuel|current
+loi|law
+moitie/|half
+par|by, through
+sept|seven
+son|his, hers, its
+temps|time
+tre\s|very
+vendre|sell
+attendre|wait
+perdre|lose
+rendre|give back
+que|which, that, whom
+entendre|hear, understand
+pourquoi|why
+toujours|always
+ancien|former
+eau|water
+me/chant|bad, wicked
+me^me|same
+parce que|because
+pire|worse
+plupart|most, the majority
+vacances|vacation
+savoir|know
+s'arre^ter|stop
+flatter|flatter
+se trouver|happen to be
+se sentir|feel
+s'endormir|fall asleep
+se tromper|be mistaken
+fort|very, strong
+aussito^t|immediately
+apporter|bring
+seul|alone
+lorsque|when
+chose|thing
+monde|world
+tout|all, everything
+tout le monde|everyone
+

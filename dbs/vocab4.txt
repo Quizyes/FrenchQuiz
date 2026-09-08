@@ -1,0 +1,52 @@
+recevoir|receive
+gens|people
+pendant|during
+apre\s|after
+si|so
+ne...rien|nothing
+ennuyer|bore
+s'ennuyer|get bored
+plein|full
+dernier|last
+alors|then, in that case
+ceci|this
+car|for, because
+peut-e^tre|maybe, perhaps
+a\ la fois|at the same time
+enfin|finally
+comment|how
+pluto^t|rather
+haut|high
+ne...gue\re|hardly
+coup|blow
+surtout|especially
+voir|see
+croire|believe
+vrai|true
+loin|far
+chaque|each
+pourtant|nevertheless, yet
+partout|everywhere
+ainsi|thus, in this way
+montrer|show
+de nouveau|again, anew
+plusieurs|several
+rester|stay
+sottise|foolishness
+se soucier de|care for
+travail|work
+vers|toward
+soleil|sun
+e/toile|star
+actuellement|at present
+de/sormais|from now on, henceforth
+bruit|noise
+arbre|tree
+avenir|future
+de/ja\|already
+encore|yet, still, again
+tel|such
+tout a\ fait|entirely, completely
+donc|then, therefore
+printemps|spring
+hiver|winter
